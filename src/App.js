@@ -67,6 +67,50 @@ const conditionSymbols = {
   sleeping: { symbol: "Z", color: "purple" },
   death: { symbol: "☠", color: "grey" },
 };
+const saveGame = () => {
+  const stateToSave = {
+    tokens,
+    panOffset,
+    zoom,
+    customBackground,
+    selectedMap,
+    monsterCounts,
+  };
+  const dataStr =
+    "data:text/json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(stateToSave));
+  const downloadAnchorNode = document.createElement("a");
+  downloadAnchorNode.setAttribute("href", dataStr);
+  downloadAnchorNode.setAttribute("download", "game_state.json");
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
+};
+
+const loadGame = () => {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = ".json";
+  fileInput.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (data.tokens) setTokens(data.tokens);
+        if (data.panOffset) setPanOffset(data.panOffset);
+        if (data.zoom) setZoom(data.zoom);
+        if (data.customBackground) setCustomBackground(data.customBackground);
+        if (data.selectedMap) setSelectedMap(data.selectedMap);
+        if (data.monsterCounts) setMonsterCounts(data.monsterCounts);
+      } catch (error) {
+        alert("Failed to load game data.");
+      }
+    };
+    reader.readAsText(file);
+  };
+  fileInput.click();
+};
 
 /* FancyButton – the original button style.
    All fonts are gold and use a subtle drop-shadow for dimension.
@@ -697,6 +741,8 @@ const Sidebar = ({
   removeEnemyTokens,
   resetApp,
   uploadPlayerToken,
+  saveGame,
+  loadGame,
 }) => (
   <div
     style={{
@@ -760,19 +806,28 @@ const Sidebar = ({
         Remove Enemy Tokens
       </FancyButton>
       <FancyButton onClick={resetApp}>Reset App</FancyButton>
-      <div
-        style={{
-          marginTop: "10px",
-          fontSize: "12px",
-          color: "gold",
-          fontFamily: "'Cinzel', serif",
-          textShadow: "1px 1px 3px rgba(0,0,0,0.7)",
-        }}
-      >
-        CTRL+Scroll or CTRL+Hotkeys Zoom (focal on cursor). While dragging a
-        token, press W/S to resize. Right‑click tokens for customization.
-      </div>
     </section>
+    <section style={{ marginBottom: "20px" }}>
+      <h3>Extras</h3>
+      <FancyButton onClick={saveGame} style={{ marginBottom: "10px" }}>
+        Save Game
+      </FancyButton>
+      <FancyButton onClick={loadGame} style={{ marginBottom: "10px" }}>
+        Load Game
+      </FancyButton>
+    </section>
+    <div
+      style={{
+        marginTop: "10px",
+        fontSize: "12px",
+        color: "gold",
+        fontFamily: "'Cinzel', serif",
+        textShadow: "1px 1px 3px rgba(0,0,0,0.7)",
+      }}
+    >
+      CTRL+Scroll or CTRL+Hotkeys Zoom (focal on cursor). While dragging a
+      token, press W/S to resize. Right‑click tokens for customization.
+    </div>
   </div>
 );
 
@@ -1604,8 +1659,11 @@ function App() {
           removeEnemyTokens={removeEnemyTokens}
           resetApp={resetApp}
           uploadPlayerToken={uploadPlayerToken}
+          saveGame={saveGame}
+          loadGame={loadGame}
         />
       )}
+      )&rbrace;
       {modalToken && (
         <ModalWindow
           token={modalToken}
