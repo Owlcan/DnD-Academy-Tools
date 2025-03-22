@@ -1,0 +1,128 @@
+// App.jsx
+import React, { useState } from 'react';
+import { Stage, Layer, Image as KonvaImage, Group } from 'react-konva';
+import useImage from 'use-image';
+
+const MapSelector = ({ maps, onSelect }) => {
+  return (
+    <div>
+      <h3>Select a Map:</h3>
+      {maps.map((map, idx) => (
+        <img
+          key={idx}
+          src={map.thumb}
+          alt={map.name}
+          style={{ width: '150px', margin: '5px', cursor: 'pointer' }}
+          onClick={() => onSelect(map.url)}
+        />
+      ))}
+    </div>
+  );
+};
+
+const TokenUploader = ({ onUpload }) => {
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => onUpload(reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div>
+      <h3>Upload a Token:</h3>
+      <input type="file" accept="image/*" onChange={handleFileChange} />
+    </div>
+  );
+};
+
+const DraggableToken = ({ token, onDragEnd }) => {
+  const [image] = useImage(token.src);
+  return (
+    <Group
+      draggable
+      x={token.x}
+      y={token.y}
+      onDragEnd={(e) => onDragEnd(token.id, e.target.x(), e.target.y())}
+    >
+      {token.src && token.src.trim() !== "" ? (
+        <KonvaImage image={image} width={50} height={50} />
+      ) : (
+        <Group>
+          <Circle x={25} y={25} radius={25} fill="gray" />
+          <Text
+            text={token.label}
+            x={0}
+            y={8}
+            width={50}
+            align="center"
+            fontSize={24}
+            fontStyle="bold"
+            fill="white"
+          />
+        </Group>
+      )}
+      <Text
+        text={`HP: ${token.hp}`}
+        fontSize={14}
+        fill="white"
+        y={55}
+        width={50}
+        align="center"
+      />
+    </Group>
+  );
+};
+
+
+const CanvasArea = ({ mapUrl, tokens, onTokenDragEnd }) => {
+  const [background] = useImage(mapUrl);
+  return (
+    <Stage width={800} height={600} style={{ border: '1px solid black' }}>
+      <Layer>
+        {background && <KonvaImage image={background} width={800} height={600} />}
+        {tokens.map((token) => (
+          <DraggableToken key={token.id} token={token} onDragEnd={onTokenDragEnd} />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+const App = () => {
+  // Preset maps available (thumb is for menu; url is the full background image)
+  const availableMaps = [
+    { name: 'Map 1', thumb: 'https://example.com/map1_thumb.jpg', url: 'https://example.com/map1.jpg' },
+    { name: 'Map 2', thumb: 'https://example.com/map2_thumb.jpg', url: 'https://example.com/map2.jpg' },
+  ];
+
+  const [selectedMap, setSelectedMap] = useState(availableMaps[0].url);
+  const [tokens, setTokens] = useState([]);
+  const [nextTokenId, setNextTokenId] = useState(1);
+
+  const addToken = (tokenSrc) => {
+    setTokens([...tokens, { id: nextTokenId, src: tokenSrc, x: 100, y: 100 }]);
+    setNextTokenId(nextTokenId + 1);
+  };
+
+  const updateTokenPosition = (id, x, y) => {
+    setTokens(
+      tokens.map((token) =>
+        token.id === id ? { ...token, x, y } : token
+      )
+    );
+  };
+
+  return (
+    <div>
+      <h1>Simple Combat Tracker</h1>
+      <MapSelector maps={availableMaps} onSelect={setSelectedMap} />
+      <TokenUploader onUpload={addToken} />
+      <CanvasArea mapUrl={selectedMap} tokens={tokens} onTokenDragEnd={updateTokenPosition} />
+    </div>
+  );
+};
+
+export default App;
+
