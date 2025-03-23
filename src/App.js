@@ -707,6 +707,7 @@ const Sidebar = ({
       left: 0,
       width: "300px",
       height: "100%",
+      boxSizing: "border-box",
       background: "rgba(0,0,0,0.7)",
       border: "1px solid #b8860b",
       color: "gold",
@@ -1465,6 +1466,7 @@ function App() {
         position: "relative",
         width: "100vw",
         height: "100vh",
+        boxSizing: "border-box",
         backgroundImage:
           'url("https://i.postimg.cc/WbrFcVxj/Designer-2025-03-22-T050835-772-upscayl-2x-digital-art-4x.png")',
         backgroundSize: "cover",
