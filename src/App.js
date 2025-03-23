@@ -34,6 +34,41 @@ const availableMaps = [
     thumb: "https://i.postimg.cc/m222xbYC/classbattle1-UHD.png",
     url: "https://i.postimg.cc/m222xbYC/classbattle1-UHD.png",
   },
+  {
+    name: "The Sea of Encounter 3",
+    thumb:
+      "https://i.postimg.cc/pr6vDz5z/Low-Res-Grid-The-Sea-of-Encounter-3-35x35.jpg",
+    url: "https://i.postimg.cc/pr6vDz5z/Low-Res-Grid-The-Sea-of-Encounter-3-35x35.jpg",
+  },
+  {
+    name: "The Sea of Encounter 4",
+    thumb:
+      "https://i.postimg.cc/05W9RRXj/Low-Res-Grid-The-Sea-of-Encounter-4-35x35.jpg",
+    url: "https://i.postimg.cc/05W9RRXj/Low-Res-Grid-The-Sea-of-Encounter-4-35x35.jpg",
+  },
+  {
+    name: "Sauna Hut",
+    thumb: "https://i.postimg.cc/bNZpqC4T/Sauna-Fin-no-Roof-22x22-tagged.jpg",
+    url: "https://i.postimg.cc/bNZpqC4T/Sauna-Fin-no-Roof-22x22-tagged.jpg",
+  },
+  {
+    name: "Giant River 1",
+    thumb:
+      "https://i.postimg.cc/4ydZ7ByX/Social-Grid-6-water-day-Giant-river-35x30.jpg",
+    url: "https://i.postimg.cc/4ydZ7ByX/Social-Grid-6-water-day-Giant-river-35x30.jpg",
+  },
+  {
+    name: "Bottletop Hill Encounter",
+    thumb:
+      "https://i.postimg.cc/85TTD1VJ/Social-grid-7-Bottle-Encounter-Coind-and-Bottle.jpg",
+    url: "https://i.postimg.cc/85TTD1VJ/Social-grid-7-Bottle-Encounter-Coind-and-Bottle.jpg",
+  },
+  {
+    name: "Giant River 2",
+    thumb:
+      "https://i.postimg.cc/4dwsxrJ8/Social-Grid-8-water-day-Giant-river-35x30.jpg",
+    url: "https://i.postimg.cc/4dwsxrJ8/Social-Grid-8-water-day-Giant-river-35x30.jpg",
+  },
 ];
 
 // Manual mapping for monster images.
@@ -1478,7 +1513,7 @@ function App() {
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
   };
-  
+
   const loadGame = () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
