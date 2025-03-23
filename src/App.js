@@ -67,50 +67,6 @@ const conditionSymbols = {
   sleeping: { symbol: "Z", color: "purple" },
   death: { symbol: "☠", color: "grey" },
 };
-const saveGame = () => {
-  const stateToSave = {
-    tokens,
-    panOffset,
-    zoom,
-    customBackground,
-    selectedMap,
-    monsterCounts,
-  };
-  const dataStr =
-    "data:text/json;charset=utf-8," +
-    encodeURIComponent(JSON.stringify(stateToSave));
-  const downloadAnchorNode = document.createElement("a");
-  downloadAnchorNode.setAttribute("href", dataStr);
-  downloadAnchorNode.setAttribute("download", "game_state.json");
-  downloadAnchorNode.click();
-  downloadAnchorNode.remove();
-};
-
-const loadGame = () => {
-  const fileInput = document.createElement("input");
-  fileInput.type = "file";
-  fileInput.accept = ".json";
-  fileInput.onchange = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
-        if (data.tokens) setTokens(data.tokens);
-        if (data.panOffset) setPanOffset(data.panOffset);
-        if (data.zoom) setZoom(data.zoom);
-        if (data.customBackground) setCustomBackground(data.customBackground);
-        if (data.selectedMap) setSelectedMap(data.selectedMap);
-        if (data.monsterCounts) setMonsterCounts(data.monsterCounts);
-      } catch (error) {
-        alert("Failed to load game data.");
-      }
-    };
-    reader.readAsText(file);
-  };
-  fileInput.click();
-};
 
 /* FancyButton – the original button style.
    All fonts are gold and use a subtle drop-shadow for dimension.
@@ -1502,6 +1458,51 @@ function App() {
     setTokens(tokens.filter((token) => token.id !== id));
     setModalToken(null);
     setMonsterModalToken(null);
+  };
+
+  const saveGame = () => {
+    const stateToSave = {
+      tokens,
+      panOffset,
+      zoom,
+      customBackground,
+      selectedMap,
+      monsterCounts,
+    };
+    const dataStr =
+      "data:text/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(stateToSave));
+    const downloadAnchorNode = document.createElement("a");
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "game_state.json");
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  };
+  
+  const loadGame = () => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".json";
+    fileInput.onchange = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          if (data.tokens) setTokens(data.tokens);
+          if (data.panOffset) setPanOffset(data.panOffset);
+          if (data.zoom) setZoom(data.zoom);
+          if (data.customBackground) setCustomBackground(data.customBackground);
+          if (data.selectedMap) setSelectedMap(data.selectedMap);
+          if (data.monsterCounts) setMonsterCounts(data.monsterCounts);
+        } catch (error) {
+          alert("Failed to load game data.");
+        }
+      };
+      reader.readAsText(file);
+    };
+    fileInput.click();
   };
 
   return (
