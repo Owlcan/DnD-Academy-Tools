@@ -345,7 +345,7 @@ const MonsterModal = ({ token, onClose, onRemove }) => {
         }}
       >
         <h2 style={{ margin: 0, textShadow: "1px 1px 3px rgba(0,0,0,0.7)" }}>
-          VR Sim Points
+          Monster Info
         </h2>
         <div>
           <FancyButton
