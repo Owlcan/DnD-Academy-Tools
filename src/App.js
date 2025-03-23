@@ -164,7 +164,7 @@ const SimPointsDrawer = ({ simPoints, setSimPoints, scale }) => {
   const [isOpen, setIsOpen] = useState(false);
   const drawerStyle = {
     position: "absolute",
-    right: `${20 * scale}px`,
+    right: "0px",
     top: "50%",
     transform: "translateY(-50%)",
     width: isOpen ? `${250 * scale}px` : `${30 * scale}px`,
