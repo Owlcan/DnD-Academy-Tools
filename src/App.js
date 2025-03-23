@@ -1619,7 +1619,6 @@ function App() {
           loadGame={loadGame}
         />
       )}
-      )&rbrace;
       {modalToken && (
         <ModalWindow
           token={modalToken}
