@@ -1113,7 +1113,7 @@ const diceRollerStyles = {
     position: "absolute",
     bottom: "10px",
     right: "10px",
-    zIndex: 1200,
+    zIndex: 900,
     fontFamily: "'Cinzel', serif",
     border: "1px solid #b8860b",
     boxShadow: "0 0 10px #b8860b",
