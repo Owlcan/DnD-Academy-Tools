@@ -8,8 +8,6 @@
   <meta property="og:description" content="A cool tool for cool brats to run D&D on forum and Discord just a little easier." />
   <meta property="og:image" content="https://github.com/user-attachments/assets/b7cd1284-2093-4bf4-a13f-e1eec7593e3c" />
   <meta property="og:url" content="https://owlcan.github.io/DnD-Academy-Tools" />
-  
-  <title>My GitHub Pages Site</title>
 </head>
 
 
