@@ -1,35 +1,53 @@
 {
-  "name": "react",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "homepage": ".",
-  "main": "src/index.tsx",
+  "name": "dnd-academy-tools",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-scripts": "^5.0.0",
-    "react-konva": "19.0.3",
-    "cra-template-kon": "1.0.3",
-    "konva": "9.3.20",
-    "use-image": "1.1.1"
+    "@csstools/normalize.css": "^12.1.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "konva": "^9.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-h5-audio-player": "^3.10.0-rc.1",
+    "react-konva": "^18.2.10",
+    "react-scripts": "5.0.1",
+    "use-image": "^1.1.1",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@types/react": "19.0.0",
-    "@types/react-dom": "19.0.0",
-    "loader-utils": "3.2.1",
-    "typescript": "5.7.2"
+    "@tauri-apps/api": "^1.5.2",
+    "@tauri-apps/cli": "^1.5.9",
+    "ajv": "^8.17.1",
+    "ajv-keywords": "^5.1.0",
+    "rimraf": "^5.0.10",
+    "@tauri-apps/validator": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "clean": "rimraf node_modules package-lock.json",
+    "tauri": "tauri"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
