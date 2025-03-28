@@ -1,0 +1,121 @@
+{
+  "character": {
+    "name": "Syna",
+    "class": "Ranger (Hunter)",
+    "level": 5,
+    "race": "Swiftstride Shifter (Old)",
+    "background": "Inheritor",
+    "alignment": "Chaotic Good",
+    "gender": "Female",
+    "attributes": {
+      "strength": 10,
+      "dexterity": 17,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 10
+    },
+    "saving_throws": {
+      "strength": 3,
+      "dexterity": 6,
+      "constitution": 2,
+      "intelligence": 0,
+      "wisdom": 2,
+      "charisma": 0
+    },
+    "skills": {
+      "acrobatics": 6,
+      "animal_handling": 2,
+      "arcana": 3,
+      "athletics": 0,
+      "insight": 5,
+      "medicine": 2,
+      "perception": 5,
+      "sleight_of_hand": 3,
+      "stealth": 6,
+      "survival": 5
+    },
+    "proficiencies": [
+      "Light Armor",
+      "Medium Armor",
+      "Shields",
+      "Martial Weapons",
+      "Simple Weapons",
+      "Firearms"
+    ],
+    "languages": [
+      "Celestial",
+      "Common",
+      "Halfling"
+    ],
+    "hit_points": {
+      "max": 60,
+      "current": 60,
+      "temporary": 0
+    },
+    "speed": "30 ft. (Walking)",
+    "equipment": {
+      "weapons": [
+        {
+          "name": "Longbow (Huntress' Sting)",
+          "attack_bonus": 6,
+          "damage": "1d8+3"
+        },
+        {
+          "name": "Magnum (Stormcall)",
+          "attack_bonus": 8,
+          "damage": "2d8+4+2d6"
+        },
+        {
+          "name": "Magnum (Tempest) Offhand",
+          "attack_bonus": 8,
+          "damage": "2d8+1+2d6"
+        },
+        {
+          "name": "Magnum (Stormcall) Offhand",
+          "attack_bonus": 8,
+          "damage": "2d8+1+2d6"
+        },
+        {
+          "name": "Magnum (Tempest)",
+          "attack_bonus": 8,
+          "damage": "2d8+4+2d6"
+        },
+        {
+          "name": "Shortsword",
+          "attack_bonus": 6,
+          "damage": "1d6+3"
+        }
+      ],
+      "armor": {
+        "name": "Chain Mail (Raiment)",
+        "armor_class": 16
+      },
+      "items": []
+    },
+    "features_traits": [
+      "Ranger Conclave (Hunter)",
+      "Colossus Slayer",
+      "Favored Enemy (Humanoid)",
+      "Fighting Style (Akimbo)",
+      "Spellcasting (Wisdom-based)",
+      "Natural Explorer",
+      "Extra Attack",
+      "Primeval Awareness",
+      "Gunslinger",
+      "Shifting (Swiftstride)"
+    ],
+    "spellcasting": {
+      "spell_slots": {
+        "level_1": 4,
+        "level_2": 2
+      },
+      "known_spells": [
+        "Cure Wounds",
+        "Hunter's Mark",
+        "Spike Growth",
+        "Silence"
+      ]
+    }
+  }
+}
