@@ -1,0 +1,236 @@
+/* DungeonRenderer Component Styles */
+
+.dungeon-renderer {
+  display: flex;
+  flex-direction: column;
+  background-color: #222;
+  border-radius: 5px;
+  padding: 10px;
+  overflow: auto;
+  margin: 10px 0;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+.dungeon-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.view-toggle-button {
+  padding: 8px 12px;
+  background-color: #4a6fa5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.view-toggle-button:hover {
+  background-color: #3a5a8c;
+}
+
+.dungeon-view {
+  flex: 1;
+  overflow: auto;
+  padding: 10px;
+  background-color: #1a1a1a;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+}
+
+.grid-view {
+  display: grid;
+  gap: 0;
+  background-color: #222;
+  padding: 10px;
+  border-radius: 4px;
+  overflow: auto;
+}
+
+.grid-row {
+  display: flex;
+  gap: 0;
+}
+
+.grid-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  color: #fff;
+  user-select: none;
+  transition: transform 0.1s;
+  position: relative;
+  border: 1px solid #333;
+}
+
+.grid-cell:hover {
+  transform: scale(1.1);
+  z-index: 10;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.grid-cell.active {
+  z-index: 2;
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(255, 255, 0, 0.6);
+}
+
+.grid-cell.valid-move {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.grid-cell.valid-move:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.grid-cell.player {
+  font-weight: bold;
+}
+
+.grid-cell.monster {
+  font-weight: bold;
+}
+
+.grid-cell.wall {
+  background-color: #333;
+  color: white;
+}
+
+.grid-cell.floor {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* Size-based styling */
+.grid-cell[style*="span 2"] {
+  font-size: 1.5em !important;
+}
+
+.grid-cell[style*="span 3"] {
+  font-size: 2em !important;
+}
+
+.grid-cell[style*="span 4"] {
+  font-size: 2.5em !important;
+}
+
+.ascii-view {
+  font-family: monospace;
+  white-space: pre;
+  background-color: #222;
+  color: #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+.toggle-view-button {
+  padding: 8px 12px;
+  background-color: #4a6fa5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.toggle-view-button:hover {
+  background-color: #3a5a8c;
+}
+
+.dungeon-tooltip {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 1000;
+  pointer-events: none;
+  max-width: 250px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dungeon-renderer__player {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.dungeon-renderer__monster {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.dungeon-renderer__wall {
+  color: #95a5a6;
+}
+
+.dungeon-renderer__floor {
+  color: #6c7a89;
+}
+
+.dungeon-renderer__door {
+  color: #f39c12;
+}
+
+.dungeon-renderer__stairs {
+  color: #9b59b6;
+}
+
+.dungeon-renderer__active {
+  background-color: #2c3e50;
+  border-radius: 2px;
+}
+
+.dungeon-renderer__tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  max-width: 200px;
+  white-space: normal;
+}
+
+/* Special Entity Style Classes */
+.entity-monster {
+  color: #aa3333;
+  border: 2px solid #c0392b;
+}
+
+.entity-boss {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.entity-treasure {
+  color: #ffcc00;
+}
+
+.entity-trap {
+  color: #ff6600;
+}
+
+.entity-player {
+  color: #33aa33;
+  border: 2px solid #27ae60;
+}
+
+.entity-stairs {
+  color: #9370db;
+}

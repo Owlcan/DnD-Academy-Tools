@@ -17,6 +17,9 @@ import DiceRoller from './components/DiceRoller';
 import BottomMapDrawer from './components/drawers/BottomMapDrawer';
 import backgroundImage from './assets/images/background.png';
 import { tokenAspectRatios } from './constants/tokenDimensions';
+import DungeonTestApp from './dungeonModule/TestApp';
+import { initializeBestiary } from './dungeonModule/debug';
+import { useDungeonTestApp, DungeonDebugButton } from './dungeonModule/debugIntegration';
 
 function App() {
   // Add new state for grid control
@@ -25,6 +28,17 @@ function App() {
   // Add state for background loading
   const [bgLoaded, setBgLoaded] = useState(false);
   const [bgError, setBgError] = useState(false);
+
+  // Use the dungeon test app hook
+  const { openDungeonTestApp } = useDungeonTestApp();
+
+  // Initialize bestiary data for dungeon generator
+  useEffect(() => {
+    if (bestiaryData?.creatures) {
+      console.log('Initializing bestiary data for dungeon generator');
+      initializeBestiary(bestiaryData);
+    }
+  }, []);
 
   // Update the background loading effect to properly clear errors
   useEffect(() => {
@@ -283,10 +297,11 @@ function App() {
       x: spawnPoint.x,
       y: spawnPoint.y,
       isPlayer: true,
-      size: 25,  // Changed from 35 to 25
+      size: 25,
       aspectRatio,
       forceSquare: false,
       statuses: {},
+      characterData: {} // Initialize empty character data object
     };
   
     // Update state in correct order
@@ -417,10 +432,11 @@ function App() {
         x: 100,
         y: 100,
         isPlayer: true,
-        size: 25,  // Changed from 35 to 25
-        aspectRatio: 1.1,  // Add aspect ratio for uploaded tokens
-        forceSquare: false, // No longer forcing square
+        size: 25,
+        aspectRatio: 1.1,
+        forceSquare: false, 
         statuses: {},
+        characterData: {} // Initialize empty character data object
       };
       
       setTokens(prev => [...prev, newToken]);
@@ -610,6 +626,12 @@ function App() {
           style={{ width: "200px" }}
         >
           Recenter Windows
+        </FancyButton>
+        <FancyButton
+          onClick={openDungeonTestApp}
+          style={{ width: "200px" }}
+        >
+          Test Dungeons
         </FancyButton>
       </div>
 

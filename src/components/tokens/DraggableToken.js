@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Image, Group, Text, Circle } from 'react-konva';
+import { Image, Group, Text, Circle, Label, Tag, Rect } from 'react-konva';
 import useImage from 'use-image';
 
 const DraggableToken = ({ token, zoom, onDragEnd, onRightClick, onHPChange, onSizeChange }) => {
   const [image] = useImage(token.image);
   const [isDragging, setIsDragging] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const baseSize = token.size * (zoom / 100);
   const dimensions = {
@@ -13,6 +14,7 @@ const DraggableToken = ({ token, zoom, onDragEnd, onRightClick, onHPChange, onSi
   };
 
   const handleDragStart = () => {
+    setIsHovered(false);
     setIsDragging(true);
   };
 
@@ -33,6 +35,25 @@ const DraggableToken = ({ token, zoom, onDragEnd, onRightClick, onHPChange, onSi
   const handleContextMenu = (e) => {
     e.evt.preventDefault();
     onRightClick();
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  // Get stats to display from character data if available
+  const characterData = token.characterData || {};
+  const attributes = characterData.attributes || {};
+  const hitPoints = characterData.hit_points || {};
+  
+  // Helper to get attribute modifier
+  const getAttributeModifier = (attributeValue) => {
+    const mod = Math.floor((attributeValue || 10) / 2) - 5;
+    return mod >= 0 ? `+${mod}` : mod.toString();
   };
 
   return (
@@ -58,6 +79,8 @@ const DraggableToken = ({ token, zoom, onDragEnd, onRightClick, onHPChange, onSi
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onContextMenu={handleContextMenu}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         opacity={isDragging ? 0.7 : 1}
         dragBoundFunc={(pos) => ({
           x: pos.x,
@@ -94,6 +117,51 @@ const DraggableToken = ({ token, zoom, onDragEnd, onRightClick, onHPChange, onSi
             shadowOffset={{ x: 1, y: 1 }}
             shadowOpacity={0.8}
           />
+          
+          {/* Display character sheet tooltip on hover if character data exists */}
+          {isHovered && token.characterData && Object.keys(token.characterData).length > 0 && (
+            <Label
+              x={token.x + dimensions.width/2 + 10}
+              y={token.y - dimensions.height/2 - 10}
+            >
+              <Tag
+                fill="rgba(26, 26, 26, 0.95)"
+                stroke="#3a0000"
+                strokeWidth={1}
+                cornerRadius={6}
+                shadowColor="black"
+                shadowBlur={10}
+                shadowOffset={{ x: 5, y: 5 }}
+                shadowOpacity={0.5}
+                pointerDirection="left"
+                pointerWidth={15}
+                pointerHeight={15}
+                lineJoin="round"
+              />
+              <Text
+                text={`${token.name}
+${characterData.class || ''}
+${characterData.race || ''}
+
+STR: ${attributes.strength || '-'} (${getAttributeModifier(attributes.strength)})
+DEX: ${attributes.dexterity || '-'} (${getAttributeModifier(attributes.dexterity)})
+CON: ${attributes.constitution || '-'} (${getAttributeModifier(attributes.constitution)})
+INT: ${attributes.intelligence || '-'} (${getAttributeModifier(attributes.intelligence)})
+WIS: ${attributes.wisdom || '-'} (${getAttributeModifier(attributes.wisdom)})
+CHA: ${attributes.charisma || '-'} (${getAttributeModifier(attributes.charisma)})
+
+HP: ${hitPoints.current || token.hp}/${hitPoints.max || token.maxHP}
+AC: ${characterData.equipment?.armor?.armor_class || '-'}
+Speed: ${characterData.speed || '-'}`}
+                padding={10}
+                fill="#c41e3a"
+                fontSize={12}
+                fontFamily="Share Tech Mono"
+                lineHeight={1.2}
+                width={180}
+              />
+            </Label>
+          )}
         </>
       )}
     </Group>
