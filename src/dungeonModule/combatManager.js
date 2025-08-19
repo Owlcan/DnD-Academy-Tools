@@ -164,66 +164,62 @@ export const calculateMonsterDamage = (monster, attack) => {
  * @returns {Array} - Array of attack objects
  */
 export const getMonsterAttacks = (monster) => {
-  // Try to get attacks from the bestiary
-  const creatureName = monster.properties?.name;
-  if (creatureName) {
-    const creatureData = getDarklingByName(creatureName);
-    
-    if (creatureData && creatureData.stats && creatureData.stats.actions) {
-      // Process actions to determine which ones are attacks
-      return creatureData.stats.actions.map(action => {
-        // Try to extract attack info from action description
-        let attackBonus = 0;
-        let damageDice = '';
-        
-        // Check if this action is an attack (contains "to hit" and "Hit:")
-        if (action.description.includes('to hit') && action.description.includes('Hit:')) {
-          // Extract attack bonus
-          const bonusMatch = action.description.match(/([+-]\d+)\s+to\s+hit/i);
-          if (bonusMatch && bonusMatch[1]) {
-            attackBonus = parseInt(bonusMatch[1]);
-          }
-          
-          // Extract damage dice
-          const damageMatch = action.description.match(/Hit:\s+\d+\s+\(([^)]+)\)/i);
-          if (damageMatch && damageMatch[1]) {
-            damageDice = damageMatch[1];
-          }
-          
-          // Determine attack type from description
-          let attackType = 'melee';
-          if (action.description.toLowerCase().includes('ranged')) {
-            attackType = 'ranged';
-          }
-          
-          return {
-            name: action.name,
-            description: action.description,
-            attackBonus,
-            damageDice,
-            attackType,
-            isAttack: true
-          };
-        }
-        
-        // For non-attack actions, just return basic info
-        return {
-          name: action.name,
-          description: action.description,
-          isAttack: false
-        };
-      });
-    }
+  // First check if monster has predefined attacks
+  if (monster.properties?.attacks && monster.properties.attacks.length > 0) {
+    return monster.properties.attacks.map(attack => ({
+      name: attack.name,
+      description: attack.description,
+      attackBonus: attack.toHit || 0,
+      damageDice: attack.damage || '1d4',
+      reach: attack.reach || 5,
+      attackType: attack.type?.toLowerCase().includes('ranged') ? 'ranged' : 'melee',
+      isAttack: true
+    }));
   }
   
-  // Default attacks if bestiary data not available
+  // Check if we have actions that can be interpreted as attacks
+  const attacks = [];
+  
+  if (monster.properties?.actions) {
+    monster.properties.actions.forEach(action => {
+      // Check if the action is an attack
+      if (action.description && (
+          action.description.includes('Attack') || 
+          action.description.includes('Weapon Attack'))) {
+        
+        // Try to extract attack information
+        const attackBonusMatch = action.description.match(/\+(\d+) to hit/);
+        const damageMatch = action.description.match(/Hit: (\d+d\d+\s*[\+\-]\s*\d+|\d+d\d+|\d+)/i);
+        
+        if (attackBonusMatch || damageMatch) {
+          attacks.push({
+            name: action.name,
+            attackBonus: attackBonusMatch ? parseInt(attackBonusMatch[1]) : 0,
+            damageDice: damageMatch ? damageMatch[1].trim() : '1d4',
+            description: action.description,
+            // Determine attack type and reach
+            attackType: action.description.toLowerCase().includes('ranged') ? 'ranged' : 'melee',
+            isAttack: true
+          });
+        }
+      }
+    });
+  }
+  
+  // Return the attacks if we found any
+  if (attacks.length > 0) {
+    return attacks;
+  }
+  
+  // Default attacks if nothing else is available
   return [
     {
-      name: 'Claws',
+      name: 'Claw',
       description: 'Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) slashing damage.',
       attackBonus: 3,
       damageDice: '1d6+3',
       attackType: 'melee',
+      reach: 5,
       isAttack: true
     },
     {
@@ -232,6 +228,7 @@ export const getMonsterAttacks = (monster) => {
       attackBonus: 3,
       damageDice: '1d4+3',
       attackType: 'melee',
+      reach: 5,
       isAttack: true
     }
   ];
@@ -253,7 +250,7 @@ export const canMoveTo = (entity, x, y, dungeon, entities) => {
     return false;
   }
   
-  // Check if the cell is a floor or corridor (1 or 2), or door (3)
+  // Check if the cell is a floor (1), corridor (2), or door (3)
   const cell = dungeon.grid[y][x];
   if (![1, 2, 3].includes(cell)) {
     return false;
@@ -304,17 +301,27 @@ export const findValidMoves = (entity, range, dungeon, entities) => {
       { dx: 1, dy: 0 },  // Right
       { dx: 0, dy: 1 },  // Down
       { dx: -1, dy: 0 }, // Left
+      // Add diagonal movements
+      { dx: 1, dy: -1 },  // Up-Right
+      { dx: 1, dy: 1 },   // Down-Right
+      { dx: -1, dy: 1 },  // Down-Left
+      { dx: -1, dy: -1 }  // Up-Left
     ];
     
     for (const dir of directions) {
       const newX = current.x + dir.dx;
       const newY = current.y + dir.dy;
       
-      if (canMoveTo(entity, newX, newY, dungeon, entities)) {
+      // Calculate movement cost (sqrt(2) for diagonals, approximated as 1.5)
+      const moveCost = (Math.abs(dir.dx) + Math.abs(dir.dy) === 2) ? 1.5 : 1;
+      
+      // Only add if the new position is valid and the total distance is within range
+      if (canMoveTo(entity, newX, newY, dungeon, entities) && 
+          (current.distance + moveCost) <= range) {
         queue.push({
           x: newX,
           y: newY,
-          distance: current.distance + 1
+          distance: current.distance + moveCost
         });
       }
     }
@@ -342,17 +349,22 @@ export const findAttackTargets = (monster, dungeon, players) => {
   attacks.forEach(attack => {
     if (attack.isAttack) {
       // Try to extract reach from description
-      const reachMatch = attack.description.match(/reach\s+(\d+)\s+ft\./i);
+      const reachMatch = attack.description?.match(/reach\s+(\d+)\s+ft\./i);
       if (reachMatch && reachMatch[1]) {
         const reach = parseInt(reachMatch[1]);
         maxReach = Math.max(maxReach, reach);
       }
       
       // For ranged attacks, check for range
-      const rangeMatch = attack.description.match(/range\s+(\d+)\s+ft\./i);
+      const rangeMatch = attack.description?.match(/range\s+(\d+)\s+ft\./i);
       if (rangeMatch && rangeMatch[1]) {
         const range = parseInt(rangeMatch[1]);
         maxReach = Math.max(maxReach, range);
+      }
+      
+      // Also check for reach property directly on the attack object
+      if (attack.reach) {
+        maxReach = Math.max(maxReach, attack.reach);
       }
     }
   });
@@ -362,8 +374,15 @@ export const findAttackTargets = (monster, dungeon, players) => {
   
   // Check each player to see if they're within reach
   players.forEach(player => {
-    // Calculate Manhattan distance
-    const distance = Math.abs(monster.x - player.x) + Math.abs(monster.y - player.y);
+    // Skip invalid or defeated players
+    if (!player || !player.properties || player.properties.hp <= 0) {
+      return;
+    }
+    
+    // Calculate Euclidean distance for more accurate reach
+    const dx = monster.x - player.x;
+    const dy = monster.y - player.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
     
     if (distance <= reachInCells) {
       targets.push({ entity: player, distance });
@@ -372,105 +391,6 @@ export const findAttackTargets = (monster, dungeon, players) => {
   
   // Sort by distance (closest first)
   return targets.sort((a, b) => a.distance - b.distance);
-};
-
-/**
- * Determine the best attack for a monster to use against a target
- * @param {Object} monster - The monster entity
- * @param {Object} target - The target entity
- * @returns {Object} - The best attack to use
- */
-export const determineBestAttack = (monster, target) => {
-  const attacks = getMonsterAttacks(monster);
-  
-  // Filter for just attack actions
-  const attackActions = attacks.filter(attack => attack.isAttack);
-  
-  if (attackActions.length === 0) {
-    // No attack actions found, return a default attack
-    return {
-      name: 'Improvised Attack',
-      description: 'The monster improvises an attack.',
-      attackBonus: 2,
-      damageDice: '1d4',
-      attackType: 'melee',
-      isAttack: true
-    };
-  }
-  
-  // Calculate Manhattan distance to target
-  const distance = Math.abs(monster.x - target.x) + Math.abs(monster.y - target.y);
-  
-  // For simplicity, prefer ranged attacks if target is more than 1 cell away
-  // otherwise prefer melee attacks
-  if (distance > 1) {
-    const rangedAttacks = attackActions.filter(attack => 
-      attack.attackType === 'ranged'
-    );
-    
-    if (rangedAttacks.length > 0) {
-      // Pick a random ranged attack
-      return rangedAttacks[Math.floor(Math.random() * rangedAttacks.length)];
-    }
-  }
-  
-  // Either we're in melee range or we don't have ranged attacks, use a melee attack
-  const meleeAttacks = attackActions.filter(attack => 
-    attack.attackType === 'melee'
-  );
-  
-  if (meleeAttacks.length > 0) {
-    // Pick a random melee attack
-    return meleeAttacks[Math.floor(Math.random() * meleeAttacks.length)];
-  }
-  
-  // If all else fails, pick a random attack
-  return attackActions[Math.floor(Math.random() * attackActions.length)];
-};
-
-/**
- * Have a monster attack a target
- * @param {Object} monster - The monster entity
- * @param {Object} target - The target entity
- * @returns {Object} - Attack result with success, damage, critical, etc.
- */
-export const monsterAttack = (monster, target) => {
-  // Determine the best attack to use
-  const attack = determineBestAttack(monster, target);
-  
-  // Roll attack
-  const attackRoll = calculateMonsterAttackRoll(monster, attack);
-  const isCritical = attackRoll === 20;
-  
-  // Get target's AC
-  const targetAC = target.properties?.ac || 10;
-  
-  // Check if attack hits
-  const hits = isCritical || attackRoll >= targetAC;
-  
-  // Calculate damage if attack hits
-  let damage = 0;
-  if (hits) {
-    // Roll damage dice once for normal hit, twice for critical
-    damage = calculateMonsterDamage(monster, attack);
-    
-    if (isCritical) {
-      // Add extra damage dice for critical hit
-      const extraDamage = calculateMonsterDamage(monster, attack);
-      damage += extraDamage;
-    }
-  }
-  
-  return {
-    monster,
-    target,
-    attack,
-    attackRoll,
-    targetAC,
-    hits,
-    damage,
-    isCritical
-  };
 };
 
 /**
@@ -486,7 +406,7 @@ export const initializeCombat = (players, monsters) => {
   }
 
   // Combine players and monsters into a single array
-  const allEntities = [...players, ...monsters];
+  const allEntities = [...players, [...monsters]];
   
   // Roll initiative for each entity
   allEntities.forEach(entity => {
@@ -520,328 +440,308 @@ export const getNextCombatant = (combatOrder, currentEntity) => {
   return combatOrder[currentIndex + 1];
 };
 
-// Process a monster's turn
-export const processMonsterTurn = (monster, dungeon, players, monsters) => {
-  if (!monster || !dungeon || !players || players.length === 0) {
-    return { 
-      actionTaken: 'none', 
-      message: 'No valid targets or dungeon data' 
-    };
+/**
+ * Get all available weapons for a player
+ * @param {Object} player - The player entity
+ * @returns {Array} - Array of weapon objects
+ */
+export const getPlayerWeapons = (player) => {
+  if (!player || !player.properties) {
+    return [];
   }
-  
-  // Get the closest player to the monster
-  const targetPlayer = findClosestPlayer(monster, players);
-  if (!targetPlayer) {
-    return {
-      actionTaken: 'none',
-      message: `${monster.properties?.name || 'Monster'} has no valid targets`
-    };
-  }
-  
-  // Calculate distance to target
-  const distance = calculateDistance(monster.x, monster.y, targetPlayer.x, targetPlayer.y);
-  
-  // Determine if the monster can attack
-  const attackRange = getMonsterAttackRange(monster);
-  
-  if (distance <= attackRange) {
-    // Attack the player
-    return performMonsterAttack(monster, targetPlayer, players);
-  } else {
-    // Move toward the player
-    return moveMonsterTowardPlayer(monster, targetPlayer, dungeon, monsters);
-  }
-};
 
-// Find the closest player to a monster
-const findClosestPlayer = (monster, players) => {
-  if (!players || players.length === 0) return null;
-  
-  let closestPlayer = null;
-  let shortestDistance = Infinity;
-  
-  players.forEach(player => {
-    if (player.properties?.hp <= 0) return; // Skip defeated players
+  // Check if player has weapons directly in its properties
+  if (player.properties.weapons && Array.isArray(player.properties.weapons)) {
+    return player.properties.weapons;
+  }
+
+  // Check if player has character data with equipment weapons
+  if (player.properties.characterData && 
+      player.properties.characterData.equipment && 
+      player.properties.characterData.equipment.weapons) {
     
-    const distance = calculateDistance(monster.x, monster.y, player.x, player.y);
-    if (distance < shortestDistance) {
-      shortestDistance = distance;
-      closestPlayer = player;
-    }
-  });
-  
-  return closestPlayer;
-};
-
-// Calculate distance between two points
-const calculateDistance = (x1, y1, x2, y2) => {
-  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-};
-
-// Get the attack range of a monster based on its abilities
-const getMonsterAttackRange = (monster) => {
-  // Default to melee range (1.5 squares)
-  let range = 1.5;
-  
-  // Check if the monster has actions with specific reach
-  if (monster.properties?.actions) {
-    monster.properties.actions.forEach(action => {
-      if (action.description && action.description.includes('reach')) {
-        // Try to parse reach from the description
-        const reachMatch = action.description.match(/reach (\d+) ft/);
-        if (reachMatch && reachMatch[1]) {
-          const actionRange = parseInt(reachMatch[1]) / 5; // Convert from feet to grid squares
-          range = Math.max(range, actionRange);
-        }
-      }
-      
-      if (action.description && action.description.includes('range')) {
-        // Try to parse range from the description
-        const rangeMatch = action.description.match(/range (\d+) ft/);
-        if (rangeMatch && rangeMatch[1]) {
-          const actionRange = parseInt(rangeMatch[1]) / 5; // Convert from feet to grid squares
-          range = Math.max(range, actionRange);
-        }
-      }
+    const characterWeapons = player.properties.characterData.equipment.weapons;
+    
+    return characterWeapons.map(weapon => {
+      // Convert to standardized weapon format
+      return {
+        name: weapon.name || 'Unnamed Weapon',
+        damage: weapon.damage || '1d6',
+        damageType: weapon.damageType || 'slashing',
+        attackBonus: weapon.attack_bonus || 0,
+        properties: weapon.properties || [],
+        range: weapon.range || 1,
+        attackType: weapon.name?.toLowerCase()?.includes('bow') || 
+                  weapon.name?.toLowerCase()?.includes('gun') || 
+                  weapon.name?.toLowerCase()?.includes('crossbow') || 
+                  weapon.name?.toLowerCase()?.includes('dart') || 
+                  weapon.name?.toLowerCase()?.includes('thrown') ? 'ranged' : 'melee',
+        type: 'weapon'
+      };
     });
   }
-  
-  return range;
+
+  // Default weapons if none found
+  return [
+    {
+      name: 'Shortsword',
+      damage: '1d6',
+      damageType: 'piercing',
+      properties: ['light', 'finesse'],
+      attackBonus: 0,
+      attackType: 'melee',
+      range: 1,
+      type: 'weapon'
+    },
+    {
+      name: 'Dagger',
+      damage: '1d4',
+      damageType: 'piercing',
+      properties: ['light', 'finesse', 'thrown'],
+      attackBonus: 0,
+      attackType: 'melee',
+      range: 1,
+      type: 'weapon'
+    }
+  ];
 };
 
-// Perform a monster's attack against a player
-const performMonsterAttack = (monster, player, allPlayers) => {
-  const monsterName = monster.properties?.name || 'Monster';
-  const playerName = player.properties?.name || 'Player';
+/**
+ * Get the player's current weapon for combat
+ * @param {Object} player - The player entity
+ * @returns {Object} - The selected weapon, or a default weapon
+ */
+export const getPlayerWeapon = (player) => {
+  // Use the player's selected weapon if available
+  if (player.selectedWeapon) {
+    return player.selectedWeapon;
+  }
   
-  // Pick a random attack from the monster's actions
-  const attacks = getMonsterAttacks(monster);
-  let attackToUse = null;
+  // Otherwise look at player's weapons array
+  const weapons = player.properties?.weapons || [];
   
-  if (attacks.length > 0) {
-    const randomIndex = Math.floor(Math.random() * attacks.length);
-    attackToUse = attacks[randomIndex];
-  } else {
-    // Fallback to a generic attack
-    attackToUse = {
-      name: 'Slam',
-      attackBonus: monster.properties?.strMod || 0,
-      damage: `1d6+${monster.properties?.strMod || 0}`,
-      damageType: 'bludgeoning'
+  if (weapons.length > 0) {
+    return weapons[0]; // Use first weapon as default
+  }
+  
+  // Check if player has character data with equipment weapons
+  if (player.properties?.characterData?.equipment?.weapons?.length > 0) {
+    const charWeapon = player.properties.characterData.equipment.weapons[0];
+    return {
+      name: charWeapon.name || 'Weapon',
+      damage: charWeapon.damage || '1d6',
+      damageType: charWeapon.damageType || 'slashing',
+      attackBonus: charWeapon.attack_bonus || 0,
+      properties: charWeapon.properties || [],
+      type: 'weapon'
     };
   }
   
+  // Fallback to a basic weapon if nothing else is available
+  return {
+    name: "Unarmed Strike",
+    damage: "1d4",
+    damageType: "bludgeoning",
+    attackBonus: 0,
+    properties: ["light"],
+    attackType: "melee",
+    range: 1,
+    type: "weapon"
+  };
+};
+
+/**
+ * Resolve a player's attack against a monster
+ * @param {Object} player - The attacking player
+ * @param {Object} monster - The monster being attacked
+ * @param {Object} weapon - The weapon being used
+ * @param {Array} monsters - All monsters in the dungeon
+ * @returns {Object} - Result of the attack
+ */
+export const resolvePlayerAttack = (player, monster, weapon, monsters) => {
+  if (!player || !monster) {
+    return { success: false, message: 'Invalid attack parameters' };
+  }
+
+  // Ensure we have a weapon
+  if (!weapon) {
+    // Try to get weapon from player properties
+    weapon = player.selectedWeapon || (player.properties?.weapons && player.properties.weapons.length > 0 
+      ? player.properties.weapons[0] 
+      : {
+        name: "Unarmed Strike",
+        damage: "1d4",
+        damageType: "bludgeoning",
+        attackBonus: 0,
+        properties: ["light"]
+      });
+  }
+
+  const playerName = player.properties?.name || 'Player';
+  const monsterName = monster.properties?.name || 'Monster';
+  const weaponName = weapon.name || 'weapon';
+
+  // Calculate attack bonus - prefer using the bonus from weapon if available
+  let attackBonus = (typeof weapon.attackBonus === 'number') ? weapon.attackBonus : 0;
+
+  // If weapon doesn't have a bonus, calculate it from stats and proficiency
+  if (attackBonus === 0) {
+    // Use ability modifier based on weapon properties
+    const strMod = player.properties?.strMod || getAbilityModifier(player.properties?.strength || 10);
+    const dexMod = player.properties?.dexMod || getAbilityModifier(player.properties?.dexterity || 10);
+    
+    // Use dexterity for finesse weapons, otherwise strength
+    if (weapon.properties && weapon.properties.includes('finesse')) {
+      attackBonus += Math.max(strMod, dexMod);
+    } else if (weapon.attackType === 'ranged') {
+      attackBonus += dexMod;
+    } else {
+      attackBonus += strMod;
+    }
+    
+    // Add proficiency bonus
+    const profBonus = Math.floor((player.properties?.level || 1) / 4) + 2;
+    attackBonus += profBonus;
+  }
+
   // Roll attack
-  const attackRoll = Math.floor(Math.random() * 20) + 1;
-  const attackBonus = attackToUse.attackBonus || monster.properties?.strMod || 0;
-  const totalAttackRoll = attackRoll + attackBonus;
+  const attackRoll = rollDie(20);
+  const totalAttack = attackRoll + attackBonus;
+  
+  // Check if attack hits
+  const monsterAC = monster.properties?.ac || 10;
+  const isHit = attackRoll === 20 || totalAttack >= monsterAC;
+  const isCritical = attackRoll === 20;
+
+  if (!isHit) {
+    return {
+      success: true,
+      hit: false,
+      message: `${playerName} attacks ${monsterName} with ${weaponName} but misses! (Rolled ${attackRoll} + ${attackBonus} = ${totalAttack} vs AC ${monsterAC})`
+    };
+  }
+
+  // Calculate damage
+  const weaponDamage = weapon.damage || '1d6';
+  const damageRolls = [];
+  let totalDamage = 0;
+  
+  // Parse the damage dice notation
+  const diceParts = parseDiceNotation(weaponDamage);
+  
+  // Roll damage dice (double dice on critical)
+  const diceCount = isCritical ? diceParts.count * 2 : diceParts.count;
+  
+  for (let i = 0; i < diceCount; i++) {
+    const roll = rollDie(diceParts.sides);
+    damageRolls.push(roll);
+    totalDamage += roll;
+  }
+  
+  // Add damage modifier
+  totalDamage += diceParts.modifier;
+
+  // Build result message
+  let hitType = isCritical ? 'critically hits' : 'hits';
+  let message = `${playerName} attacks ${monsterName} with ${weaponName} and ${hitType}! `;
+  message += `(Rolled ${attackRoll} + ${attackBonus} = ${totalAttack} vs AC ${monsterAC}) `;
+  
+  if (isCritical) {
+    message += `Critical hit! `;
+  }
+  
+  message += `Damage: ${damageRolls.join(' + ')}`;
+  if (diceParts.modifier > 0) {
+    message += ` + ${diceParts.modifier}`;
+  }
+  message += ` = ${totalDamage} ${weapon.damageType || 'damage'}`;
+  
+  return {
+    success: true,
+    hit: true,
+    critical: isCritical,
+    damage: totalDamage,
+    message,
+    rollDetails: {
+      attackRoll,
+      attackBonus,
+      totalAttack,
+      damageRolls,
+      weaponDamage,
+      weapon
+    }
+  };
+};
+
+/**
+ * Resolve a monster's attack against a player
+ * @param {Object} monster - The attacking monster
+ * @param {Object} player - The player being attacked
+ * @param {Array} allPlayers - All players in the dungeon
+ * @returns {Object} - Result of the attack
+ */
+export const resolveMonsterAttack = (monster, player, allPlayers) => {
+  if (!monster || !player) {
+    return { success: false, message: 'Invalid attack parameters' };
+  }
+
+  const monsterName = monster.properties?.name || 'Monster';
+  const playerName = player.properties?.name || 'Player';
+
+  // Get monster attacks
+  const attacks = getMonsterAttacks(monster);
+  
+  // Select an attack to use
+  const attack = attacks[Math.floor(Math.random() * attacks.length)];
+  const attackName = attack?.name || 'attack';
+  
+  // Calculate attack roll
+  const attackRoll = rollDie(20);
+  const attackBonus = attack?.attackBonus || monster.properties?.attackBonus || 0;
+  const totalAttack = attackRoll + attackBonus;
   
   // Check if attack hits
   const playerAC = player.properties?.ac || 10;
-  const isHit = attackRoll === 20 || totalAttackRoll >= playerAC;
+  const isHit = attackRoll === 20 || totalAttack >= playerAC;
   const isCritical = attackRoll === 20;
-  
-  if (isHit) {
-    // Calculate damage
-    const damage = rollDamage(attackToUse.damage, isCritical);
-    
-    // Update player HP
-    const updatedPlayers = allPlayers.map(p => {
-      if (p.id === player.id) {
-        const newHP = Math.max(0, p.properties.hp - damage);
-        p.properties.hp = newHP;
-      }
-      return p;
-    });
-    
-    // Check if player is defeated
-    const isDefeated = player.properties.hp <= 0;
-    
-    // Construct message
-    const hitType = isCritical ? 'critically hits' : 'hits';
-    const message = `${monsterName} attacks ${playerName} with ${attackToUse.name} and ${hitType} for ${damage} damage!`;
-    
+
+  if (!isHit) {
     return {
-      actionTaken: 'attack',
-      message,
-      damage,
-      targetDefeated: isDefeated
-    };
-  } else {
-    // Attack missed
-    return {
-      actionTaken: 'attack',
-      message: `${monsterName} attacks ${playerName} with ${attackToUse.name} but misses!`
+      success: true,
+      hit: false,
+      message: `${monsterName} attacks ${playerName} with ${attackName} but misses! (Rolled ${attackRoll} + ${attackBonus} = ${totalAttack} vs AC ${playerAC})`
     };
   }
-};
 
-// Move monster toward a player
-const moveMonsterTowardPlayer = (monster, player, dungeon, allMonsters) => {
-  const monsterName = monster.properties?.name || 'Monster';
-  const playerName = player.properties?.name || 'Player';
+  // Calculate damage
+  let damageRoll = 0;
+  const damageDice = attack?.damageDice || attack?.damage || '1d6';
   
-  // Calculate direction to player
-  const dx = player.x - monster.x;
-  const dy = player.y - monster.y;
+  // Parse dice notation
+  const diceParts = parseDiceNotation(damageDice);
   
-  // Normalize to get a single step in the right direction
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  const stepX = Math.round(dx / distance);
-  const stepY = Math.round(dy / distance);
+  // Roll damage dice (double dice on critical)
+  const diceCount = isCritical ? diceParts.count * 2 : diceParts.count;
   
-  // Calculate new position
-  const newX = monster.x + stepX;
-  const newY = monster.y + stepY;
-  
-  // Check if the new position is valid
-  if (isValidPosition(newX, newY, dungeon, allMonsters)) {
-    // Update monster position
-    const oldX = monster.x;
-    const oldY = monster.y;
-    
-    return {
-      actionTaken: 'move',
-      message: `${monsterName} moves toward ${playerName}`,
-      newPosition: { x: newX, y: newY },
-      oldPosition: { x: oldX, y: oldY }
-    };
-  } else {
-    // Try to find an alternative path
-    const alternativeMoves = [
-      { x: monster.x + 1, y: monster.y },
-      { x: monster.x - 1, y: monster.y },
-      { x: monster.x, y: monster.y + 1 },
-      { x: monster.x, y: monster.y - 1 }
-    ];
-    
-    // Sort by closest to player
-    alternativeMoves.sort((a, b) => {
-      const distA = calculateDistance(a.x, a.y, player.x, player.y);
-      const distB = calculateDistance(b.x, b.y, player.x, player.y);
-      return distA - distB;
-    });
-    
-    // Find the first valid move
-    for (const move of alternativeMoves) {
-      if (isValidPosition(move.x, move.y, dungeon, allMonsters)) {
-        const oldX = monster.x;
-        const oldY = monster.y;
-        
-        return {
-          actionTaken: 'move',
-          message: `${monsterName} moves toward ${playerName}`,
-          newPosition: { x: move.x, y: move.y },
-          oldPosition: { x: oldX, y: oldY }
-        };
-      }
-    }
-    
-    // No valid moves found
-    return {
-      actionTaken: 'none',
-      message: `${monsterName} can't find a path to ${playerName}`
-    };
-  }
-};
-
-// Check if a position is valid for movement
-const isValidPosition = (x, y, dungeon, monsters) => {
-  // Check if out of bounds
-  if (!dungeon || !dungeon.grid || y < 0 || y >= dungeon.grid.length || x < 0 || x >= dungeon.grid[y].length) {
-    return false;
+  for (let i = 0; i < diceCount; i++) {
+    damageRoll += rollDie(diceParts.sides);
   }
   
-  // Check if walkable terrain (floor, corridor, door, stairs up/down, etc.)
-  const terrainType = dungeon.grid[y][x];
-  const walkable = [1, 2, 3, 4, 5]; // Floor, corridor, door, stairs up/down
-  if (!walkable.includes(terrainType)) {
-    return false;
-  }
-  
-  // Check if occupied by another monster
-  const occupied = monsters.some(m => m.x === x && m.y === y);
-  if (occupied) {
-    return false;
-  }
-  
-  return true;
-};
+  // Add damage modifier
+  const damageBonus = diceParts.modifier;
+  let totalDamage = damageRoll + damageBonus;
 
-// Get monster attacks from its properties
-const getMonsterAttacks = (monster) => {
-  const attacks = [];
+  // Build result message
+  let hitType = isCritical ? 'critically hits' : 'hits';
+  let message = `${monsterName} attacks ${playerName} with ${attackName} and ${hitType}! `;
+  message += `(Rolled ${attackRoll} + ${attackBonus} = ${totalAttack} vs AC ${playerAC}) `;
+  message += `Damage: ${damageRoll} + ${damageBonus} = ${totalDamage} damage`;
   
-  if (!monster.properties?.actions) return attacks;
-  
-  monster.properties.actions.forEach(action => {
-    // Check if the action is an attack
-    if (action.description && (
-        action.description.includes('Attack') || 
-        action.description.includes('Weapon Attack'))) {
-      
-      // Try to extract attack information
-      const attackBonusMatch = action.description.match(/\+(\d+) to hit/);
-      const damageMatch = action.description.match(/Hit: (\d+d\d+\s*[\+\-]\s*\d+|\d+d\d+|\d+)/i);
-      
-      if (attackBonusMatch && damageMatch) {
-        attacks.push({
-          name: action.name,
-          attackBonus: parseInt(attackBonusMatch[1]),
-          damage: damageMatch[1].trim(),
-          description: action.description
-        });
-      }
-    }
-  });
-  
-  return attacks;
-};
-
-// Roll damage dice based on a damage expression
-const rollDamage = (damageExpr, isCritical = false) => {
-  try {
-    // Parse the damage expression (e.g., "2d6+3" or "1d10")
-    const matches = damageExpr.match(/(\d+)d(\d+)(?:([+-])(\d+))?/);
-    
-    if (matches) {
-      const numDice = parseInt(matches[1]);
-      const dieSize = parseInt(matches[2]);
-      const hasModifier = matches[3] !== undefined;
-      const modifierSign = matches[3] || '+';
-      const modifierValue = parseInt(matches[4] || '0');
-      
-      // Roll the dice
-      let totalDamage = 0;
-      const diceToRoll = isCritical ? numDice * 2 : numDice;
-      
-      for (let i = 0; i < diceToRoll; i++) {
-        totalDamage += Math.floor(Math.random() * dieSize) + 1;
-      }
-      
-      // Apply modifier
-      if (hasModifier) {
-        if (modifierSign === '+') {
-          totalDamage += modifierValue;
-        } else {
-          totalDamage -= modifierValue;
-        }
-      }
-      
-      // Ensure damage is at least 1
-      return Math.max(1, totalDamage);
-    } else {
-      // If the expression doesn't match our pattern, just return a fixed value
-      return parseInt(damageExpr) || 1;
-    }
-  } catch (error) {
-    console.error('Error rolling damage:', error);
-    return 1; // Default damage on error
-  }
-};
-
-export default {
-  initializeCombat,
-  getNextCombatant,
-  processMonsterTurn
+  return {
+    success: true,
+    hit: true,
+    critical: isCritical,
+    damage: totalDamage,
+    message
+  };
 };

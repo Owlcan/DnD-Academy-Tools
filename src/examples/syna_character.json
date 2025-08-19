@@ -57,7 +57,7 @@
     "equipment": {
       "weapons": [
         {
-          "name": "Longbow (Huntress' Sting)",
+          "name": "Longbow",
           "attack_bonus": 6,
           "damage": "1d8+3"
         },
@@ -72,12 +72,12 @@
           "damage": "2d8+1+2d6"
         },
         {
-          "name": "Magnum (Stormcall) Offhand",
+          "name": "Gun",
           "attack_bonus": 8,
           "damage": "2d8+1+2d6"
         },
         {
-          "name": "Magnum (Tempest)",
+          "name": "Gun",
           "attack_bonus": 8,
           "damage": "2d8+4+2d6"
         },
@@ -88,7 +88,7 @@
         }
       ],
       "armor": {
-        "name": "Chain Mail (Raiment)",
+        "name": "Chain Mail",
         "armor_class": 16
       },
       "items": []

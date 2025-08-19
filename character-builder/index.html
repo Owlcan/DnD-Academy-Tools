@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Character Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>D&D Character Builder</h1>
+            <p>Create your character for the Darkling Depths Adventure</p>
+        </header>
+
+        <main id="character-builder">
+            <div class="progress-bar">
+                <div class="step active" data-step="1">Basic Info</div>
+                <div class="step" data-step="2">Attributes</div>
+                <div class="step" data-step="3">Equipment</div>
+                <div class="step" data-step="4">Spells</div>
+                <div class="step" data-step="5">Complete</div>
+            </div>
+
+            <div class="form-container">
+                <!-- Step 1: Basic Info -->
+                <section class="form-step" id="step1">
+                    <h2>Character Basics</h2>
+                    
+                    <div class="form-group">
+                        <label for="charName">Character Name</label>
+                        <input type="text" id="charName" placeholder="Enter character name">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="charRace">Race</label>
+                            <select id="charRace">
+                                <option value="">Select Race</option>
+                                <option value="Human">Human</option>
+                                <option value="Elf">Elf</option>
+                                <option value="Dwarf">Dwarf</option>
+                                <option value="Halfling">Halfling</option>
+                                <option value="Half-Elf">Half-Elf</option>
+                                <option value="Half-Orc">Half-Orc</option>
+                                <option value="Gnome">Gnome</option>
+                                <option value="Tiefling">Tiefling</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="charClass">Class</label>
+                            <select id="charClass">
+                                <option value="">Select Class</option>
+                                <option value="Fighter">Fighter</option>
+                                <option value="Wizard">Wizard</option>
+                                <option value="Cleric">Cleric</option>
+                                <option value="Rogue">Rogue</option>
+                                <option value="Ranger">Ranger</option>
+                                <option value="Paladin">Paladin</option>
+                                <option value="Barbarian">Barbarian</option>
+                                <option value="Bard">Bard</option>
+                                <option value="Druid">Druid</option>
+                                <option value="Warlock">Warlock</option>
+                                <option value="Sorcerer">Sorcerer</option>
+                                <option value="Monk">Monk</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="charLevel">Level</label>
+                            <input type="number" id="charLevel" min="1" max="20" value="1">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn-next" onclick="nextStep(1)">Next: Attributes</button>
+                    </div>
+                </section>
+
+                <!-- Step 2: Attributes -->
+                <section class="form-step" id="step2">
+                    <h2>Attributes</h2>
+                    
+                    <div class="attributes-grid">
+                        <div class="attribute-box">
+                            <label for="attrStr">Strength</label>
+                            <input type="number" id="attrStr" min="3" max="20" value="10">
+                            <span class="modifier" id="strMod">+0</span>
+                        </div>
+                        <div class="attribute-box">
+                            <label for="attrDex">Dexterity</label>
+                            <input type="number" id="attrDex" min="3" max="20" value="10">
+                            <span class="modifier" id="dexMod">+0</span>
+                        </div>
+                        <div class="attribute-box">
+                            <label for="attrCon">Constitution</label>
+                            <input type="number" id="attrCon" min="3" max="20" value="10">
+                            <span class="modifier" id="conMod">+0</span>
+                        </div>
+                        <div class="attribute-box">
+                            <label for="attrInt">Intelligence</label>
+                            <input type="number" id="attrInt" min="3" max="20" value="10">
+                            <span class="modifier" id="intMod">+0</span>
+                        </div>
+                        <div class="attribute-box">
+                            <label for="attrWis">Wisdom</label>
+                            <input type="number" id="attrWis" min="3" max="20" value="10">
+                            <span class="modifier" id="wisMod">+0</span>
+                        </div>
+                        <div class="attribute-box">
+                            <label for="attrCha">Charisma</label>
+                            <input type="number" id="attrCha" min="3" max="20" value="10">
+                            <span class="modifier" id="chaMod">+0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hitPoints">Hit Points</label>
+                        <input type="number" id="hitPoints" value="10">
+                        <p class="hint">This will be calculated based on your class and Constitution</p>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn-prev" onclick="prevStep(2)">Back</button>
+                        <button class="btn-next" onclick="nextStep(2)">Next: Equipment</button>
+                    </div>
+                </section>
+
+                <!-- Step 3: Equipment -->
+                <section class="form-step" id="step3">
+                    <h2>Equipment</h2>
+                    
+                    <div class="equipment-section">
+                        <h3>Weapons</h3>
+                        <div class="weapon-selector">
+                            <select id="weaponSelect">
+                                <option value="">Add a weapon</option>
+                                <!-- Weapons will be populated by JavaScript -->
+                            </select>
+                            <button class="btn-add" onclick="addWeapon()">Add</button>
+                        </div>
+                        <div id="selectedWeapons" class="selected-items">
+                            <!-- Selected weapons will appear here -->
+                        </div>
+                    </div>
+                    
+                    <div class="equipment-section">
+                        <h3>Armor</h3>
+                        <div class="armor-selector">
+                            <select id="armorSelect">
+                                <option value="">Select Armor</option>
+                                <!-- Armor will be populated by JavaScript -->
+                            </select>
+                        </div>
+                        <div id="selectedArmor" class="selected-items">
+                            <!-- Selected armor will appear here -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn-prev" onclick="prevStep(3)">Back</button>
+                        <button class="btn-next" onclick="nextStep(3)">Next: Spells</button>
+                    </div>
+                </section>
+
+                <!-- Step 4: Spells -->
+                <section class="form-step" id="step4">
+                    <h2>Spells</h2>
+                    
+                    <div id="spellSection">
+                        <p class="hint">Spells are available for spellcasting classes (Wizard, Cleric, etc.)</p>
+                        
+                        <div id="spellSelector" class="spell-selector">
+                            <select id="spellSelect">
+                                <option value="">Add a spell</option>
+                                <!-- Spells will be populated by JavaScript -->
+                            </select>
+                            <button class="btn-add" onclick="addSpell()">Add</button>
+                        </div>
+                        
+                        <div id="selectedSpells" class="selected-items">
+                            <!-- Selected spells will appear here -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn-prev" onclick="prevStep(4)">Back</button>
+                        <button class="btn-next" onclick="nextStep(4)">Complete Character</button>
+                    </div>
+                </section>
+
+                <!-- Step 5: Complete -->
+                <section class="form-step" id="step5">
+                    <h2>Character Complete!</h2>
+                    
+                    <div class="character-summary">
+                        <h3 id="summaryName">Character Name</h3>
+                        <p id="summaryBasics">Level 1 Human Fighter</p>
+                        
+                        <div class="summary-section">
+                            <h4>Attributes</h4>
+                            <div class="attribute-summary" id="summaryAttributes">
+                                <!-- Attributes summary will be filled by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h4>Equipment</h4>
+                            <div id="summaryEquipment">
+                                <!-- Equipment summary will be filled by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section" id="summarySpellsSection">
+                            <h4>Spells</h4>
+                            <div id="summarySpells">
+                                <!-- Spells summary will be filled by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="export-section">
+                        <h3>Export Options</h3>
+                        <div class="export-buttons">
+                            <button class="btn-export" onclick="downloadCharacter()">Download JSON</button>
+                            <button class="btn-export" onclick="copyCharacterUrl()">Copy URL</button>
+                        </div>
+                        <div class="url-display">
+                            <p>Character URL (copy to share):</p>
+                            <input type="text" id="characterUrl" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn-prev" onclick="prevStep(5)">Back</button>
+                        <button class="btn-new" onclick="resetForm()">Create New Character</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 DnD Academy Tools | <a href="#" onclick="showHelp()">Help</a></p>
+        </footer>
+    </div>
+
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeHelp()">&times;</span>
+            <h2>Character Builder Help</h2>
+            <p>This tool helps you create characters for the Darkling Depths adventure. Follow these steps:</p>
+            <ol>
+                <li><strong>Basic Info:</strong> Enter your character's name, race, class, and level.</li>
+                <li><strong>Attributes:</strong> Set your character's six main attributes (Strength, Dexterity, etc.).</li>
+                <li><strong>Equipment:</strong> Choose weapons and armor for your character.</li>
+                <li><strong>Spells:</strong> If your character is a spellcaster, select their known spells.</li>
+                <li><strong>Complete:</strong> Review your character and export it as JSON or a URL.</li>
+            </ol>
+            <p>To import your character into the game, copy the URL or download the JSON file and use the import feature in the game.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

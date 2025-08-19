@@ -38,6 +38,7 @@ const WeatherEffects = ({ activeEffects }) => {
       case 'rain': return 100;
       case 'miasma': return 75;
       case 'time': return 75;
+      case 'sandstorm': return 120;
       default: return 50;
     }
   };
@@ -48,6 +49,7 @@ const WeatherEffects = ({ activeEffects }) => {
       case 'rain': return 2 + Math.random() * 1;
       case 'miasma': return 16 + Math.random() * 8;
       case 'time': return 18 + Math.random() * 8;  // Increased from 14+6 to 18+8
+      case 'sandstorm': return 3 + Math.random() * 2;
       default: return 4;
     }
   };
@@ -65,6 +67,12 @@ const WeatherEffects = ({ activeEffects }) => {
           content: '❆',
           color: '#FFFFFF',
           textShadow: '0 0 2px rgba(0,0,0,0.3), 0 0 5px rgba(0,0,255,0.2)'
+        };
+      case 'sandstorm':
+        return {
+          content: '·',
+          color: '#d2b48c',
+          textShadow: '0 0 2px rgba(139,69,19,0.4)'
         };
       case 'miasma':
         return {
@@ -88,6 +96,14 @@ const WeatherEffects = ({ activeEffects }) => {
 
   const getOverlayStyle = (effect) => {
     switch(effect) {
+      case 'rain':
+        return [
+          {
+            background: 'linear-gradient(180deg, rgba(0, 191, 255, 0.08) 0%, rgba(0, 0, 0, 0) 100%)',
+            mixBlendMode: 'screen',
+            zIndex: 999
+          }
+        ];
       case 'snow':
         return [
           {
@@ -103,6 +119,19 @@ const WeatherEffects = ({ activeEffects }) => {
           {
             backdropFilter: 'brightness(1.1) contrast(0.95)',
             zIndex: 997
+          }
+        ];
+      case 'sandstorm':
+        return [
+          {
+            background: 'linear-gradient(180deg, rgba(210,180,140,0.18) 0%, rgba(0,0,0,0) 100%)',
+            mixBlendMode: 'screen',
+            zIndex: 999
+          },
+          {
+            background: 'radial-gradient(ellipse at 30% 50%, rgba(222,184,135,0.18), rgba(0,0,0,0) 60%), radial-gradient(ellipse at 70% 50%, rgba(210,180,140,0.12), rgba(0,0,0,0) 60%)',
+            mixBlendMode: 'soft-light',
+            zIndex: 998
           }
         ];
       case 'night':
@@ -176,16 +205,18 @@ const WeatherEffects = ({ activeEffects }) => {
       ))}
       
       {activeEffects.map(effect => {
-        const particleStyles = `
+    const particleStyles = `
           @keyframes fall {
             0% {
-              transform: translateY(0) ${effect === 'snow' ? 'rotate(0deg)' : ''} 
-                        ${effect === 'rain' ? 'translateX(0)' : ''};
+      transform: translateY(0) ${effect === 'snow' ? 'rotate(0deg)' : ''} 
+        ${effect === 'rain' ? 'translateX(0)' : ''}
+        ${effect === 'sandstorm' ? 'translateX(0)' : ''};
             }
             100% {
               transform: translateY(100vh) 
-                        ${effect === 'snow' ? 'rotate(360deg)' : ''} 
-                        ${effect === 'rain' ? 'translateX(-10px)' : ''}; /* Reduced sideways movement */
+        ${effect === 'snow' ? 'rotate(360deg)' : ''} 
+        ${effect === 'rain' ? 'translateX(-10px)' : ''}
+        ${effect === 'sandstorm' ? 'translateX(30px)' : ''}; /* wind push */
             }
           }
           
@@ -215,6 +246,7 @@ const WeatherEffects = ({ activeEffects }) => {
         // Adjust duration for rain particles
         const duration = effect === 'rain' 
           ? 4 + Math.random() * 3  // Faster for rain (was 8 + random * 7)
+          : effect === 'sandstorm' ? 6 + Math.random() * 4
           : 8 + Math.random() * 7; // Original speed for others
 
         return (

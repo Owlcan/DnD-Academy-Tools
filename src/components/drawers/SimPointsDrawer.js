@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import FancyButton from '../buttons/FancyButton';
 
-const SimPointsDrawer = ({ simPoints, setSimPoints }) => {
+const SimPointsDrawer = ({ simPoints, setSimPoints, collapsed = false, onToggle }) => {
   const [input, setInput] = useState('');
   const [position, setPosition] = useState({ x: 20, y: window.innerHeight - 420 });
   const [isDragging, setIsDragging] = useState(false);
@@ -91,6 +91,13 @@ const SimPointsDrawer = ({ simPoints, setSimPoints }) => {
       }}>
         {simPoints.toString().padStart(6, '0')}
       </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
+        <FancyButton onClick={(e) => { e.stopPropagation(); onToggle && onToggle(); }} style={{ padding: '2px 8px', fontSize: '12px' }}>
+          {collapsed ? 'Expand' : 'Collapse'}
+        </FancyButton>
+      </div>
+      {collapsed ? null : (
+        <>
       
       <input
         type="text"
@@ -154,6 +161,8 @@ const SimPointsDrawer = ({ simPoints, setSimPoints }) => {
       >
         {clearConfirm ? 'Click again to confirm clear' : 'Clear Points'}
       </FancyButton>
+        </>
+      )}
     </div>
   );
 };

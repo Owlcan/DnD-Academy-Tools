@@ -1,0 +1,57 @@
+{
+  "name": "Dere",
+  "race": "Human",
+  "class": "Cleric",
+  "level": 5,
+  "attributes": {
+      "strength": 16,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 18,
+      "charisma": 10,
+      "str": 16,
+      "dex": 12,
+      "con": 14,
+      "int": 10,
+      "wis": 18,
+      "cha": 10
+  },
+  "hit_points": {
+      "max": 42,
+      "current": 42
+  },
+  "equipment": {
+      "weapons": [
+          {
+              "name": "Greatsword",
+              "damage": "2d6",
+              "damageType": "slashing",
+              "properties": [
+                  "two-handed"
+              ]
+          },
+          {
+              "name": "Gun",
+              "damage": "2d6",
+              "damageType": "piercing",
+              "properties": [
+                  "ranged"
+              ]
+          }
+      ],
+      "armor": {
+          "name": "Chain Mail",
+          "armor_class": 16,
+          "type": "Heavy"
+      }
+  },
+  "spellcasting": {
+      "known_spells": [
+          "Heal",
+          "Heal More",
+          "Guiding Bolt",
+          "Radiant Lance"
+      ]
+  }
+}

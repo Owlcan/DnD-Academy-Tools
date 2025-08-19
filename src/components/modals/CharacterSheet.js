@@ -1,5 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FancyButton from '../buttons/FancyButton';
+import { getAvailableSpells } from '../../dungeonModule/utils/spellSystem';
+
+// Load all spells directly
+let allSpells = [];
+try {
+  allSpells = require('../../dungeonModule/data/Spells/spells.json');
+  
+  // Add custom spells that might not be in the spells.json file
+  allSpells = [
+    ...allSpells,
+    {
+      Spell: "Shocking Touch",
+      Level: "Cantrip",
+      School: "Evocation",
+      Classes: ["Sorcerer", "Wizard", "Warlock"]
+    },
+    {
+      Spell: "Warlock Blast",
+      Level: "Cantrip",
+      School: "Evocation",
+      Classes: ["Warlock"]
+    },
+    {
+      Spell: "Burning Cone",
+      Level: "1",
+      School: "Evocation",
+      Classes: ["Sorcerer", "Wizard"]
+    },
+    {
+      Spell: "Warlock Bolt",
+      Level: "1",
+      School: "Necromancy",
+      Classes: ["Warlock"]
+    }
+  ];
+} catch (error) {
+  console.error('Failed to load spells:', error);
+  // Fallback to at least the custom spells if the import fails
+  allSpells = [
+    {
+      Spell: "Shocking Grasp",
+      Level: "Cantrip",
+      School: "Evocation",
+      Classes: ["Sorcerer", "Wizard", "Warlock"]
+    },
+    {
+      Spell: "Eldritch Blast",
+      Level: "Cantrip",
+      School: "Evocation",
+      Classes: ["Warlock"]
+    },
+    {
+      Spell: "Burning Hands",
+      Level: "1",
+      School: "Evocation",
+      Classes: ["Sorcerer", "Wizard", "Rogue"]
+    },
+    {
+      Spell: "Warlock Bolt",
+      Level: "1",
+      School: "Necromancy",
+      Classes: ["Warlock", "Rogue"]
+    }
+  ];
+}
 
 // Character sheet tabs for organization
 const TABS = {
@@ -13,6 +78,31 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
   const [activeTab, setActiveTab] = useState(TABS.BASIC);
   const [jsonInput, setJsonInput] = useState('');
   const [showJsonImport, setShowJsonImport] = useState(false);
+  const [selectedSpell, setSelectedSpell] = useState(null);
+
+  // Process character data to ensure proper formatting and token representation
+  const processCharacterData = (data) => {
+    if (!data) return data;
+    
+    // Create a copy to avoid direct mutation
+    const processedData = {...data};
+    
+    // If the character name exists, ensure proper token display
+    if (processedData.name) {
+      // Store the correct token identifier (first character of name) in a dedicated field
+      processedData.tokenIdentifier = processedData.name.charAt(0).toUpperCase();
+      
+      // Make sure the name is not hardcoded to "Alaric" in any components
+      if (processedData.name.toLowerCase() === 'alaric') {
+        console.log('Character name is Alaric - ensuring proper token display');
+      }
+    }
+    
+    return processedData;
+  };
+
+  // Use the processed data throughout the component
+  const displayData = processCharacterData(characterData);
 
   // Helper to update nested character properties
   const updateNestedProperty = (path, value) => {
@@ -258,7 +348,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
 
   // Render attributes section
   const renderAttributes = () => {
-    const attributes = characterData?.attributes || {};
+    const attributes = displayData?.attributes || {};
     return (
       <div style={styles.attributesContainer}>
         {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(attr => (
@@ -290,7 +380,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
           <label style={styles.label}>Character Name</label>
           <input
             type="text"
-            value={characterData?.name || ''}
+            value={displayData?.name || ''}
             onChange={(e) => updateNestedProperty('name', e.target.value)}
             style={styles.input}
           />
@@ -299,7 +389,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
           <label style={styles.label}>Class & Level</label>
           <input
             type="text"
-            value={characterData?.class || ''}
+            value={displayData?.class || ''}
             onChange={(e) => updateNestedProperty('class', e.target.value)}
             style={styles.input}
           />
@@ -311,7 +401,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
           <label style={styles.label}>Race</label>
           <input
             type="text"
-            value={characterData?.race || ''}
+            value={displayData?.race || ''}
             onChange={(e) => updateNestedProperty('race', e.target.value)}
             style={styles.input}
           />
@@ -320,7 +410,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
           <label style={styles.label}>Background</label>
           <input
             type="text"
-            value={characterData?.background || ''}
+            value={displayData?.background || ''}
             onChange={(e) => updateNestedProperty('background', e.target.value)}
             style={styles.input}
           />
@@ -332,7 +422,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
           <label style={styles.label}>Alignment</label>
           <input
             type="text"
-            value={characterData?.alignment || ''}
+            value={displayData?.alignment || ''}
             onChange={(e) => updateNestedProperty('alignment', e.target.value)}
             style={styles.input}
           />
@@ -341,7 +431,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
           <label style={styles.label}>Gender</label>
           <input
             type="text"
-            value={characterData?.gender || ''}
+            value={displayData?.gender || ''}
             onChange={(e) => updateNestedProperty('gender', e.target.value)}
             style={styles.input}
           />
@@ -353,7 +443,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
 
       <h3 style={styles.sectionTitle}>Languages</h3>
       <textarea
-        value={(characterData?.languages || []).join(', ')}
+        value={(displayData?.languages || []).join(', ')}
         onChange={(e) => updateNestedProperty('languages', e.target.value.split(',').map(lang => lang.trim()))}
         style={styles.textarea}
         placeholder="Common, Elvish, Dwarvish..."
@@ -363,9 +453,9 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
 
   // Render combat & skills tab
   const renderCombatTab = () => {
-    const savingThrows = characterData?.saving_throws || {};
-    const skills = characterData?.skills || {};
-    const hitPoints = characterData?.hit_points || {};
+    const savingThrows = displayData?.saving_throws || {};
+    const skills = displayData?.skills || {};
+    const hitPoints = displayData?.hit_points || {};
     
     return (
       <div style={styles.tabContent}>
@@ -405,7 +495,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
             <label style={styles.label}>Armor Class</label>
             <input
               type="number"
-              value={characterData?.equipment?.armor?.armor_class || ''}
+              value={displayData?.equipment?.armor?.armor_class || ''}
               onChange={(e) => updateNestedProperty('equipment.armor.armor_class', parseInt(e.target.value) || 0)}
               style={styles.input}
             />
@@ -414,9 +504,43 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
             <label style={styles.label}>Speed</label>
             <input
               type="text"
-              value={characterData?.speed || ''}
+              value={displayData?.speed || ''}
               onChange={(e) => updateNestedProperty('speed', e.target.value)}
               style={styles.input}
+            />
+          </div>
+        </div>
+
+        <h3 style={styles.sectionTitle}>Combat Bonuses</h3>
+        <div style={styles.row}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>To Hit Bonus</label>
+            <input
+              type="number"
+              value={displayData?.combat_bonuses?.to_hit || ''}
+              onChange={(e) => updateNestedProperty('combat_bonuses.to_hit', parseInt(e.target.value) || 0)}
+              style={{...styles.input, ...styles.bonusInput}}
+              placeholder="Global bonus to attack rolls"
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Damage Bonus</label>
+            <input
+              type="number"
+              value={displayData?.combat_bonuses?.damage || ''}
+              onChange={(e) => updateNestedProperty('combat_bonuses.damage', parseInt(e.target.value) || 0)}
+              style={{...styles.input, ...styles.bonusInput}}
+              placeholder="Global bonus to damage"
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Spell Attack Bonus</label>
+            <input
+              type="number"
+              value={displayData?.combat_bonuses?.spell_attack || ''}
+              onChange={(e) => updateNestedProperty('combat_bonuses.spell_attack', parseInt(e.target.value) || 0)}
+              style={{...styles.input, ...styles.bonusInput}}
+              placeholder="Bonus to spell attacks"
             />
           </div>
         </div>
@@ -453,7 +577,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
 
         <h3 style={styles.sectionTitle}>Proficiencies</h3>
         <textarea
-          value={(characterData?.proficiencies || []).join(', ')}
+          value={(displayData?.proficiencies || []).join(', ')}
           onChange={(e) => updateNestedProperty('proficiencies', e.target.value.split(',').map(prof => prof.trim()))}
           style={styles.textarea}
           placeholder="Light Armor, Simple Weapons..."
@@ -464,7 +588,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
 
   // Render spells tab
   const renderSpellsTab = () => {
-    const spellcasting = characterData?.spellcasting || {};
+    const spellcasting = displayData?.spellcasting || {};
     
     return (
       <div style={styles.tabContent}>
@@ -491,9 +615,43 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
           placeholder="Enter one spell per line..."
         />
 
+        <h3 style={styles.sectionTitle}>Select Spells</h3>
+        <div style={styles.row}>
+          <select
+            onChange={(e) => {
+              const selectedSpell = allSpells.find(spell => spell.Spell === e.target.value);
+              if (selectedSpell) {
+                // Store the selected spell in component state instead of immediately adding it
+                setSelectedSpell(selectedSpell);
+              }
+            }}
+            style={{...styles.input, flex: 3}}
+          >
+            <option value="">Select a spell...</option>
+            {allSpells.map((spell, index) => (
+              <option key={index} value={spell.Spell}>
+                {spell.Spell} ({spell.Level})
+              </option>
+            ))}
+          </select>
+          <FancyButton
+            onClick={() => {
+              if (selectedSpell) {
+                // Add the selected spell to the character's known spells list
+                updateNestedProperty('spellcasting.known_spells', [...(spellcasting.known_spells || []), selectedSpell.Spell]);
+                // Clear the selected spell
+                setSelectedSpell(null);
+              }
+            }}
+            style={{...styles.smallButton, flex: 1, marginLeft: '10px'}}
+          >
+            Add Spell
+          </FancyButton>
+        </div>
+
         <h3 style={styles.sectionTitle}>Features & Traits</h3>
         <textarea
-          value={(characterData?.features_traits || []).join('\n')}
+          value={(displayData?.features_traits || []).join('\n')}
           onChange={(e) => updateNestedProperty('features_traits', e.target.value.split('\n').map(feature => feature.trim()).filter(feature => feature))}
           style={{...styles.textarea, height: '180px'}}
           placeholder="Enter one feature per line..."
@@ -504,7 +662,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
 
   // Render inventory tab
   const renderInventoryTab = () => {
-    const weapons = characterData?.equipment?.weapons || [];
+    const weapons = displayData?.equipment?.weapons || [];
     
     return (
       <div style={styles.tabContent}>
@@ -572,7 +730,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
             <label style={styles.label}>Armor Name</label>
             <input
               type="text"
-              value={characterData?.equipment?.armor?.name || ''}
+              value={displayData?.equipment?.armor?.name || ''}
               onChange={(e) => updateNestedProperty('equipment.armor.name', e.target.value)}
               style={styles.input}
             />
@@ -581,7 +739,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
             <label style={styles.label}>Armor Class</label>
             <input
               type="number"
-              value={characterData?.equipment?.armor?.armor_class || ''}
+              value={displayData?.equipment?.armor?.armor_class || ''}
               onChange={(e) => updateNestedProperty('equipment.armor.armor_class', parseInt(e.target.value) || 0)}
               style={styles.input}
             />
@@ -590,7 +748,7 @@ const CharacterSheet = ({ characterData, onDataChange, onImportJSON }) => {
 
         <h3 style={styles.sectionTitle}>Items & Equipment</h3>
         <textarea
-          value={(characterData?.equipment?.items || []).join('\n')}
+          value={(displayData?.equipment?.items || []).join('\n')}
           onChange={(e) => updateNestedProperty('equipment.items', e.target.value.split('\n').map(item => item.trim()).filter(item => item))}
           style={{...styles.textarea, height: '180px'}}
           placeholder="Enter one item per line..."
@@ -851,6 +1009,9 @@ const styles = {
     border: '1px solid #3a0000',
     borderRadius: '5px',
     padding: '10px',
+  },
+  bonusInput: {
+    textAlign: 'center',
   },
 };
 

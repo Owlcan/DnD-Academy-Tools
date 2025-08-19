@@ -1,0 +1,73 @@
+.encounter-buttons {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #2d2d2d;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  color: #f0f0f0;
+}
+
+.encounter-buttons-header {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.encounter-buttons-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #f0f0f0;
+}
+
+.encounter-buttons-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.encounter-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.encounter-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.encounter-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.encounter-button.single-player {
+  background-color: #3498db;
+  color: white;
+}
+
+.encounter-button.group-player {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.encounter-button.clear {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.encounter-generating {
+  margin-top: 10px;
+  text-align: center;
+  font-style: italic;
+  color: #aaa;
+}
+
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import FancyButton from './buttons/FancyButton';
 
 const MonsterSection = ({ title, monsters, addEnemyToken, isOpen, onToggle }) => (
@@ -20,22 +20,26 @@ const MonsterSection = ({ title, monsters, addEnemyToken, isOpen, onToggle }) =>
 
     {isOpen && (
       <div style={{
-        maxHeight: '300px',
+        maxHeight: 'calc(70vh - 160px)',
         overflowY: 'auto',
         marginLeft: '10px',
         display: 'flex',
         flexDirection: 'column',
         gap: '5px',
       }}>
-        {monsters.map((monster, index) => (
-          <FancyButton
-            key={monster.name + index}
-            onClick={() => addEnemyToken(monster)}
-            style={{ width: '100%', textAlign: 'left', padding: '5px 10px' }}
-          >
-            {monster.name}
-          </FancyButton>
-        ))}
+        {monsters.map((monster, index) => {
+          const cr = monster.stats?.challengeRating ?? monster.stats?.challengeRatingStr;
+          const crText = cr !== undefined ? ` (CR ${cr})` : '';
+          return (
+            <FancyButton
+              key={monster.name + index}
+              onClick={() => addEnemyToken(monster)}
+              style={{ width: '100%', textAlign: 'left', padding: '5px 10px' }}
+            >
+              {monster.name}{crText}
+            </FancyButton>
+          );
+        })}
       </div>
     )}
   </div>
@@ -43,6 +47,7 @@ const MonsterSection = ({ title, monsters, addEnemyToken, isOpen, onToggle }) =>
 
 const Sidebar = ({
   addExtraPlayerToken,
+  addSpecialToken,
   removePlayerTokens,
   monsters,
   addEnemyToken,
@@ -55,11 +60,18 @@ const Sidebar = ({
   const [darklingsSectionOpen, setDarklingsSectionOpen] = useState(true);
   const [darkformesSectionOpen, setDarkformesSectionOpen] = useState(true);
 
-  const darklings = monsters.filter(m => 
-    m.name.toLowerCase().includes('darkling') && !m.name.toLowerCase().includes('darkforme')
+  const [search, setSearch] = useState('');
+  const lc = (s) => (s || '').toLowerCase();
+  const filtered = useMemo(() => {
+    if (!search) return monsters;
+    const q = lc(search);
+    return monsters.filter(m => lc(m.name).includes(q) || lc(m.type).includes(q) || lc(m.stats?.size || '').includes(q));
+  }, [monsters, search]);
+  const darklings = filtered.filter(m => 
+    lc(m.name).includes('darkling') && !lc(m.name).includes('darkforme')
   );
-  const darkformes = monsters.filter(m => 
-    !m.name.toLowerCase().includes('darkling') || m.name.toLowerCase().includes('darkforme')
+  const darkformes = filtered.filter(m => 
+    !lc(m.name).includes('darkling') || lc(m.name).includes('darkforme')
   );
 
   return (
@@ -82,6 +94,25 @@ const Sidebar = ({
     }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <FancyButton onClick={addExtraPlayerToken}>Add Player Token</FancyButton>
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          <FancyButton onClick={() => addSpecialToken('yellow-flag')} style={{ flex: '1 0 30%' }}>Flag</FancyButton>
+          <FancyButton onClick={() => addSpecialToken('down-marker')} style={{ flex: '1 0 30%' }}>Down</FancyButton>
+          <FancyButton onClick={() => addSpecialToken('arenaball')} style={{ flex: '1 0 30%' }}>Arenaball</FancyButton>
+        </div>
+        <input
+          type="text"
+          placeholder="Search monsters..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '6px 8px',
+            borderRadius: '6px',
+            border: '1px solid #b8860b',
+            background: 'rgba(0,0,0,0.6)',
+            color: 'gold'
+          }}
+        />
         <input
           type="file"
           id="playerTokenUpload"

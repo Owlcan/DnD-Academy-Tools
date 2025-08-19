@@ -21,12 +21,13 @@
     "@tauri-apps/cli": "^1.5.9",
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
-    "rimraf": "^5.0.10",
-    "@tauri-apps/validator": "^1.0.0"
+    "rimraf": "^5.0.10"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+  "prestart": "node scripts/generate-map-manifest.js",
+  "start": "react-scripts start",
+  "prebuild": "node scripts/generate-map-manifest.js",
+  "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "clean": "rimraf node_modules package-lock.json",

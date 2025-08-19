@@ -80,10 +80,11 @@ export const weatherOptions = [
   { id: 'rain', label: 'Rain' },
   { id: 'snow', label: 'Snow & Cold' },
   { id: 'miasma', label: 'Miasma' },
-  { id: 'timeMagic', label: 'Time Magic' },
-  { id: 'heat', label: 'Heat Wave' },
+  { id: 'time', label: 'Time Magic' },
+  { id: 'heatwave', label: 'Heat Wave' },
   { id: 'night', label: 'Night' },
   { id: 'fog', label: 'Fog' },
+  { id: 'sandstorm', label: 'Sandstorm' },
 ];
 
 export const defaultPlayerTokens = {

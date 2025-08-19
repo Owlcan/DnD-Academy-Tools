@@ -64,13 +64,49 @@ export const useDungeonTestApp = () => {
       
       testAppContainer.appendChild(closeButton);
       
+      // Add visual settings button
+      const visualSettingsButton = document.createElement('button');
+      visualSettingsButton.innerText = 'Toggle Monster Size View';
+      visualSettingsButton.style.position = 'absolute';
+      visualSettingsButton.style.top = '10px';
+      visualSettingsButton.style.right = '200px';
+      visualSettingsButton.style.zIndex = '10001';
+      visualSettingsButton.style.padding = '8px 12px';
+      visualSettingsButton.style.background = '#4285f4';
+      visualSettingsButton.style.color = 'white';
+      visualSettingsButton.style.border = 'none';
+      visualSettingsButton.style.borderRadius = '4px';
+      visualSettingsButton.style.cursor = 'pointer';
+      
+      visualSettingsButton.addEventListener('click', () => {
+        // Toggle between visualizing large entities as single cells or as their proper size
+        const currentSetting = localStorage.getItem('dungeonVisualizeLargeEntities') || 'true';
+        const newSetting = currentSetting === 'true' ? 'false' : 'true';
+        localStorage.setItem('dungeonVisualizeLargeEntities', newSetting);
+        alert(`Large entity visualization: ${newSetting === 'true' ? 'ON' : 'OFF'}`);
+        window.location.reload(); // Refresh to apply new setting
+      });
+      
+      testAppContainer.appendChild(visualSettingsButton);
+      
+      // Add a special container for the combat menu
+      const combatMenuContainer = document.createElement('div');
+      combatMenuContainer.id = 'combat-menu-container';
+      combatMenuContainer.style.position = 'absolute';
+      combatMenuContainer.style.top = '60px'; // Move down to avoid conflicting with other buttons
+      combatMenuContainer.style.left = '20px';
+      combatMenuContainer.style.zIndex = '10002';
+      combatMenuContainer.style.minWidth = '250px';
+      combatMenuContainer.style.maxWidth = '350px';
+      testAppContainer.appendChild(combatMenuContainer);
+      
       // Render the test app
       const testAppContentElement = document.createElement('div');
       testAppContentElement.style.padding = '20px';
       testAppContentElement.style.paddingTop = '50px'; // Make space for close button
       testAppContainer.appendChild(testAppContentElement);
       
-      ReactDOM.render(<DungeonTestApp />, testAppContentElement);
+      ReactDOM.render(<DungeonTestApp visualizeLargeEntities={localStorage.getItem('dungeonVisualizeLargeEntities') !== 'false'} />, testAppContentElement);
       
       // Clean up function
       return () => {

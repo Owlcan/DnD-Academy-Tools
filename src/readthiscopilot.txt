@@ -1,0 +1,264 @@
+Requirements for encounter generator:
+
+~Be called encounter generator and located in its own document
+~Handles main gamespace (outside of the test dungeon) spawning of single dungeon room encounters. 
+~No exit is needed.
+~Must use monster tokens that we already have implemented.
+~The printed dungeon layout can be a static image or graphic, as we already have all the token movement options to use these assets as needed.
+~After a room is spawned, an option to "clear generated dungeon" and an option for "generate another encounter" should be available- 
+~Encounters should be based around level 4-6 Characters.
+~One option to spawn single player encounters (slightly smaller arena areas and less monsters)
+~Another option to spawn group encounters suitable for 2-4 players.
+~The group encounters should be larger and have more monsters.
+~Only bestiary integrated monsters should be used
+
+
+
+===================================================================
+You provided this code as a possible implementation, it is prevented here for simplicity's sake.
+===================================================================
+
+
+
+// Add this method to the DungeonGenerator class
+
+/**
+ * Generates a standalone encounter map with one or two rooms and monster tokens
+ * @param {Object} options - Configuration options
+ * @param {number} options.width - Width of the encounter area (default: 15)
+ * @param {number} options.height - Height of the encounter area (default: 15)
+ * @param {number} options.roomCount - Number of rooms (1 or 2, default: 1)
+ * @param {number} options.monsterCount - Number of monsters to place (default: 3)
+ * @param {number} options.monsterLevel - Level of monsters (default: party level)
+ * @param {boolean} options.includeBoss - Whether to include a boss monster (default: false)
+ * @returns {Object} Map data that can be rendered on the main game board
+ */
+generateEncounterMap(options = {}) {
+  // Default options
+  const defaultOptions = {
+    width: 15,
+    height: 15,
+    roomCount: 1,
+    monsterCount: 3,
+    monsterLevel: this.config.partyLevel || 3,
+    includeBoss: false
+  };
+
+  const config = { ...defaultOptions, ...options };
+  
+  // Create a smaller grid for the encounter
+  const grid = Array(config.height).fill().map(() => 
+    Array(config.width).fill(0) // 0 represents walls
+  );
+  
+  const rooms = [];
+  const entities = [];
+  
+  // Generate rooms
+  const roomWidth = Math.floor(config.width * 0.7); // 70% of map width
+  const roomHeight = Math.floor(config.height * 0.7); // 70% of map height
+  
+  // First room centered in the map
+  const room1 = {
+    x: Math.floor((config.width - roomWidth) / 2),
+    y: Math.floor((config.height - roomHeight) / 2),
+    width: roomWidth,
+    height: roomHeight,
+    center: {
+      x: Math.floor(config.width / 2),
+      y: Math.floor(config.height / 2)
+    }
+  };
+  
+  rooms.push(room1);
+  
+  // Carve out the room
+  for (let y = room1.y; y < room1.y + room1.height; y++) {
+    for (let x = room1.x; x < room1.x + room1.width; x++) {
+      if (y >= 0 && y < config.height && x >= 0 && x < config.width) {
+        grid[y][x] = 1; // 1 represents floor
+      }
+    }
+  }
+  
+  // Add a second room if requested
+  if (config.roomCount > 1) {
+    // Determine position (adjacent to first room)
+    const direction = this.random.nextInt(0, 4); // 0: top, 1: right, 2: bottom, 3: left
+    
+    let room2Width = Math.floor(roomWidth * 0.8); // Slightly smaller
+    let room2Height = Math.floor(roomHeight * 0.8);
+    let room2X, room2Y;
+    
+    switch (direction) {
+      case 0: // Top
+        room2X = room1.x + Math.floor((room1.width - room2Width) / 2);
+        room2Y = Math.max(1, room1.y - room2Height - 1);
+        break;
+      case 1: // Right
+        room2X = room1.x + room1.width + 1;
+        room2Y = room1.y + Math.floor((room1.height - room2Height) / 2);
+        break;
+      case 2: // Bottom
+        room2X = room1.x + Math.floor((room1.width - room2Width) / 2);
+        room2Y = room1.y + room1.height + 1;
+        break;
+      case 3: // Left
+        room2X = Math.max(1, room1.x - room2Width - 1);
+        room2Y = room1.y + Math.floor((room1.height - room2Height) / 2);
+        break;
+    }
+    
+    // Ensure room fits on the map
+    if (room2X >= 0 && room2Y >= 0 && room2X + room2Width < config.width && room2Y + room2Height < config.height) {
+      const room2 = {
+        x: room2X,
+        y: room2Y,
+        width: room2Width,
+        height: room2Height,
+        center: {
+          x: Math.floor(room2X + room2Width / 2),
+          y: Math.floor(room2Y + room2Height / 2)
+        }
+      };
+      
+      rooms.push(room2);
+      
+      // Carve out the second room
+      for (let y = room2.y; y < room2.y + room2.height; y++) {
+        for (let x = room2.x; x < room2.x + room2.width; x++) {
+          if (y >= 0 && y < config.height && x >= 0 && x < config.width) {
+            grid[y][x] = 1; // 1 represents floor
+          }
+        }
+      }
+      
+      // Create corridor between rooms
+      this._createCorridor(room1.center.x, room1.center.y, room2.center.x, room2.center.y);
+    }
+  }
+  
+  // Add monsters
+  const monsterCount = config.includeBoss ? config.monsterCount - 1 : config.monsterCount;
+  
+  for (let i = 0; i < monsterCount; i++) {
+    // Pick a random room
+    const room = this.random.select(rooms);
+    
+    // Generate monster properties
+    const properties = this._generateMonsterProperties(config.monsterLevel);
+    let tokenSize = 1;
+    
+    // Sometimes make it a larger monster (20% chance)
+    if (this.random.next() < 0.2) {
+      const sizeRoll = this.random.next();
+      if (sizeRoll < 0.6) {
+        properties.size = 'large';
+        properties.tokenSize = 2;
+      } else if (sizeRoll < 0.9) {
+        properties.size = 'huge';
+        properties.tokenSize = 3;
+      } else {
+        properties.size = 'gargantuan';
+        properties.tokenSize = 4;
+      }
+      tokenSize = properties.tokenSize;
+    }
+    
+    // Find placement position
+    let placed = false;
+    let attempts = 0;
+    const maxAttempts = 50;
+    
+    while (!placed && attempts < maxAttempts) {
+      attempts++;
+      
+      // Place entity at a random position within the room, with margin for token size
+      const margin = tokenSize - 1;
+      const maxX = room.x + room.width - 1 - margin;
+      const maxY = room.y + room.height - 1 - margin;
+      
+      if (maxX <= room.x || maxY <= room.y) {
+        continue; // Room too small, skip this attempt
+      }
+      
+      const x = this.random.nextInt(room.x + 1, maxX);
+      const y = this.random.nextInt(room.y + 1, maxY);
+      
+      // Check if the area is clear
+      let clear = true;
+      for (let dy = 0; dy < tokenSize; dy++) {
+        for (let dx = 0; dx < tokenSize; dx++) {
+          const checkX = x + dx;
+          const checkY = y + dy;
+          
+          // Check if position is occupied
+          if (entities.some(entity => entity.x === checkX && entity.y === checkY)) {
+            clear = false;
+            break;
+          }
+        }
+        if (!clear) break;
+      }
+      
+      if (clear) {
+        entities.push({
+          type: 'monster',
+          x, y,
+          properties: {
+            ...properties,
+            useActualToken: true // Flag to use actual monster token on main board
+          }
+        });
+        placed = true;
+      }
+    }
+  }
+  
+  // Add boss if requested
+  if (config.includeBoss) {
+    const room = rooms[0]; // Put boss in main room
+    
+    // Generate boss properties
+    const properties = this._generateMonsterProperties(config.monsterLevel + 2);
+    properties.isBoss = true;
+    
+    // Boss is usually larger
+    const sizeRoll = this.random.next();
+    let tokenSize = 2; // Default to Large
+    
+    if (sizeRoll < 0.6) {
+      properties.size = 'large';
+      properties.tokenSize = 2;
+    } else if (sizeRoll < 0.9) {
+      properties.size = 'huge';
+      properties.tokenSize = 3;
+    } else {
+      properties.size = 'gargantuan';
+      properties.tokenSize = 4;
+    }
+    tokenSize = properties.tokenSize;
+    
+    // Place in center of room if possible
+    const x = Math.floor(room.x + room.width / 2) - Math.floor(tokenSize / 2);
+    const y = Math.floor(room.y + room.height / 2) - Math.floor(tokenSize / 2);
+    
+    entities.push({
+      type: 'monster',
+      x, y,
+      properties: {
+        ...properties,
+        useActualToken: true
+      }
+    });
+  }
+  
+  return {
+    grid,
+    rooms,
+    entities,
+    width: config.width,
+    height: config.height,
+    isEncounterMap: true // Flag to identify this as a standalone encounter map
+  };
+}
