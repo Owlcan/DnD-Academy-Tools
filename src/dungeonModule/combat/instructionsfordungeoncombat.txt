@@ -1,0 +1,39 @@
+Can we add a new system that tracks and enforces a turn order?
+
+This is how it would work:
+
+Creates another new button called START COMBAT.
+This DOES NOT GENERATE A NEW MAP. Instead it reads the current map and does the following:
+
+Upon hitting Start Combat:
+
+~Round and Turn counter appears
+~All monsters and Player tokens on the field are assigned an initiative value that is based on a 1d20 roll plus their dexterity and proficiency if they are a rogue, fighter, or sorcerer, or are a monster with greater than 14 dex
+~After initiative is assigned, a turn order is created.
+~The monster or player that must move should be highlighted, and its movement options displayed.
+~Users must move, attack, or hit a button of our choosing to pass the turn for themselves.
+~The monsters would have VERY simple logic. They would check for line of sight. If they have line of sight, they will use their turns to attempt to approach the player and utilize one of their attacks.
+~If they will not be able to reach the player, or the player breaks line of sight, the monster should attempt to return to where it started using its movement.
+~If a monster does not have line of sight, it should randomly choose between doing nothing and passing turn, moving half of its movement speed and passing its turn, or moving all of its movement speed and passing its turn. If any one of those checks would fail, it should just do nothing and end its turn.
+~When all monsters and chests are defeated, the turns are over and the session should print the number and type of monsters defeated and the number and type of loot collected from open chests.
+~When combat is resolved, the text "Combat CONCLUDED" should appear in the text chat, so it is easy to find in the game file.
+~For purposes of this system, treasure chests count as enemies for the printing of the "combat concluded"
+~If players are defeated, the combat concluded message is also printed and the turn counter and round counter are removed until the turn sequence is begun again.
+
+How to proceed:
+
+~ALL of this uses our existing dungeons.
+~To check for dungeon failure, the game should look for the chat message "Error generating dungeon:" and if it is found it should just retry the generation of the dungeon
+until it receives the message "Dungeon generated with "PLAYER NAME" and... X monsters from your bestiary."
+~Robust checks to ensure it does not reset a properly generated dungeon should be in place. It should wait up to 6 seconds for the dungeon generation message to appear
+before retrying the generation of the dungeon.
+~Create simple monster movement and attack and turn pass logic in #MonsterLogic.js file.
+~Create a new button called START COMBAT that will be added to the existing combat menu. This should be done in: #CombatMenu&Styles.js
+~Handle any exceptions or necessary checks in #GameProtocols.js
+~Handle resolving player turns and monster turns in: #PlayerLogic.js, as well as ensuring two or more players can play together without breaking the turn order system.
+~Initiative should be dealt with in: #InitiativeHandler.js
+~Implement the turn order tracking and enforcement system in, and initiative system in GameLogic.js.
+~Ensure that the turn order is displayed correctly in the game file after combat resolution.
+~Ensure that the round and turn counter is displayed correctly in the game file after combat resolution.
+~Ensure that the combat resolution system is able to handle multiple players and monsters without breaking the turn order system.
+~Ensure that the combat concluded message is printed correctly in the game file after combat resolution.

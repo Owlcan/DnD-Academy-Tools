@@ -1,0 +1,8 @@
+~Implement liquid hazard and pit tiles (properly colored)
+~Add support for half tile shapes (triangular) for the purpose of smoother pit/lava/water generation
+~Add support for debris and other environmental features, and give them an appropriate coloration. Also, debris should be locked in place and persistent, but debris does not have to be perfectly square or circular- we can have varied shapes for debris and ruins and crates barrels etc.
+~Ensure there are walls, half walls, platforms, bridges and other structural elements that provide cover.
+~Create multiple presets for arena generation (single room battle arenas)
+~Create environmental color themes for different biomes/settings such as forests, deserts, and dungeons.
+~Natural/cavern room/arena shape generation that remains bounded within the grid.
+~A few more of the existing advanced generation options implemented from the existing code we have from the dungeon generator.

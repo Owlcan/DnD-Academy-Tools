@@ -8,6 +8,10 @@ const ModalMonster = ({ token, onClose, onRemove, onCollectXP }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
+  // Safe access to details/stats with fallbacks for encounter-spawned tokens
+  const details = token?.details || {};
+  const stats = details?.stats || {};
+
   const handleMouseDown = (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
     setIsDragging(true);
@@ -43,31 +47,31 @@ const ModalMonster = ({ token, onClose, onRemove, onCollectXP }) => {
 
   const rollAttack = (action) => {
     const roll = Math.floor(Math.random() * 20) + 1;
-    const attackBonus = parseInt(action.description.match(/\+(\d+)/)?.[1] || 0);
+    const attackBonus = parseInt(action?.description?.match(/\+(\d+)/)?.[1] || 0);
     const totalAttack = roll + attackBonus;
 
-    const damageMatch = action.description.match(/(\d+)d(\d+)\s*\+?\s*(\d+)?/);
+    const damageMatch = action?.description?.match(/(\d+)d(\d+)\s*\+?\s*(\d+)?/);
     let damageRoll = 0;
     if (damageMatch) {
-      const [_, numDice, diceType, bonus] = damageMatch;
+      const [, numDice, diceType, bonus] = damageMatch; // Remove underscore from destructuring
       for (let i = 0; i < parseInt(numDice); i++) {
         damageRoll += Math.floor(Math.random() * parseInt(diceType)) + 1;
       }
       if (bonus) damageRoll += parseInt(bonus);
     }
 
-    const result = `${action.name}: Attack ${totalAttack} (${roll}+${attackBonus}), Damage ${damageRoll}`;
+    const result = `${action?.name || 'Attack'}: Attack ${totalAttack} (${roll}+${attackBonus}), Damage ${damageRoll}`;
     setRollResults(prev => [result, ...prev.slice(0, 4)]);
   };
 
   const handleCollectXP = () => {
-    const xp = token.details.stats.experiencePoints || 0;
+    const xp = stats?.experiencePoints ?? details?.experiencePoints ?? 0;
     onCollectXP(xp);
     onRemove(token.id);
   };
 
   return (
-    <div
+  <div
       style={{
         position: 'fixed',
         top: position.y,
@@ -81,8 +85,8 @@ const ModalMonster = ({ token, onClose, onRemove, onCollectXP }) => {
         color: 'gold',
         zIndex: 2000,
         minWidth: '400px',
-        maxWidth: trusted ? '800px' : '400px',
-        maxHeight: '90vh',
+    maxWidth: trusted ? '900px' : '500px',
+    height: '90vh',
         overflowY: 'auto',
         fontFamily: "'Cinzel', serif",
         boxShadow: '0 0 30px rgba(184, 134, 11, 0.4)',
@@ -137,36 +141,38 @@ const ModalMonster = ({ token, onClose, onRemove, onCollectXP }) => {
             }}>
               <div>
                 <div style={{ color: '#ffd700' }}>Armor Class</div>
-                <div>{token.details.stats.armorClass}</div>
+                <div>{stats?.armorClass ?? details?.ac ?? '-'}</div>
               </div>
               <div>
                 <div style={{ color: '#ffd700' }}>Hit Points</div>
-                <div>{token.details.stats.hitPoints}</div>
+                <div>{stats?.hitPoints ?? details?.hp ?? '-'}</div>
               </div>
               <div>
                 <div style={{ color: '#ffd700' }}>Speed</div>
-                <div>{token.details.stats.speed}</div>
+                <div>{stats?.speed ?? details?.speed ?? '-'}</div>
               </div>
             </div>
 
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(6, 1fr)',
-              gap: '10px',
-              marginBottom: '20px',
-              background: 'rgba(0,0,0,0.3)',
-              padding: '15px',
-              borderRadius: '8px'
-            }}>
-              {Object.entries(token.details.stats.abilityScoreStrs).map(([ability, value]) => (
-                <div key={ability} style={{ textAlign: 'center' }}>
-                  <div style={{ color: '#ffd700', fontSize: '0.9em' }}>{ability.toUpperCase()}</div>
-                  <div>{value}</div>
-                </div>
-              ))}
-            </div>
+            {stats?.abilityScoreStrs && (
+              <div style={{ 
+                display: 'grid',
+                gridTemplateColumns: 'repeat(6, 1fr)',
+                gap: '10px',
+                marginBottom: '20px',
+                background: 'rgba(0,0,0,0.3)',
+                padding: '15px',
+                borderRadius: '8px'
+              }}>
+                {Object.entries(stats.abilityScoreStrs).map(([ability, value]) => (
+                  <div key={ability} style={{ textAlign: 'center' }}>
+                    <div style={{ color: '#ffd700', fontSize: '0.9em' }}>{ability.toUpperCase()}</div>
+                    <div>{value}</div>
+                  </div>
+                ))}
+              </div>
+            )}
 
-            {token.details.stats.actions && (
+            {stats?.actions && (
               <div>
                 <h4 style={{ 
                   color: '#ffd700', 
@@ -177,7 +183,7 @@ const ModalMonster = ({ token, onClose, onRemove, onCollectXP }) => {
                   Actions
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {token.details.stats.actions.map((action, index) => (
+                  {stats.actions.map((action, index) => (
                     <FancyButton
                       key={index}
                       onClick={() => rollAttack(action)}
@@ -230,7 +236,7 @@ const ModalMonster = ({ token, onClose, onRemove, onCollectXP }) => {
       }}>
         <FancyButton onClick={() => onRemove(token.id)}>Remove</FancyButton>
         <FancyButton onClick={handleCollectXP}>
-          Remove and Collect XP ({token.details.stats.experiencePoints || 0})
+          Remove and Collect XP ({stats?.experiencePoints ?? details?.experiencePoints ?? 0})
         </FancyButton>
         <FancyButton onClick={onClose}>Close</FancyButton>
       </div>

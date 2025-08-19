@@ -39,9 +39,45 @@ const ASCIIRenderer = ({ dungeon }) => {
         // Choose character based on entity type
         let char = '?';
         
-        switch (entity.type) {
+        // Check for entity size
+        let tokenSize = entity.properties?.tokenSize || 1;
+        
+        // Handle monster size from the monster data if available
+        if (entity.type === 'monster' && entity.properties?.monsterData) {
+          const monsterData = entity.properties.monsterData;
+          
+          // Use size from monsterData if available
+          if (monsterData.size && Array.isArray(monsterData.size)) {
+            // Handle size format used in bestiary files
+            const sizeCode = monsterData.size[0];
+            if (sizeCode === 'G') tokenSize = 4;
+            else if (sizeCode === 'H') tokenSize = 3;
+            else if (sizeCode === 'L') tokenSize = 2;
+            else if (sizeCode === 'M' || sizeCode === 'S' || sizeCode === 'T') tokenSize = 1;
+          }
+          
+          // Also use tokenSize from monsterData stats if available
+          if (monsterData.stats && monsterData.stats.tokenSize) {
+            tokenSize = monsterData.stats.tokenSize;
+          }
+        }
+        
+        switch(entity.type) {
           case 'monster':
-            char = entity.properties?.isBoss ? 'B' : 'M';
+            if (entity.properties?.isBoss) {
+              char = 'B';
+            } else {
+              // Use different symbols based on size
+              if (tokenSize >= 4) {
+                char = 'G'; // Gargantuan
+              } else if (tokenSize === 3) {
+                char = 'H'; // Huge
+              } else if (tokenSize === 2) {
+                char = 'L'; // Large
+              } else {
+                char = 'M'; // Medium or smaller
+              }
+            }
             break;
           case 'treasure':
             char = '$';
@@ -59,6 +95,45 @@ const ASCIIRenderer = ({ dungeon }) => {
         
         // Add the entity character to the grid
         asciiGrid[entity.y][entity.x] = char;
+        
+        // For larger entities, mark their extents
+        if (tokenSize > 1) {
+          // Add corner markers for large entities
+          for (let dy = 0; dy < tokenSize; dy++) {
+            for (let dx = 0; dx < tokenSize; dx++) {
+              const cx = entity.x + dx;
+              const cy = entity.y + dy;
+              
+              // Skip if out of bounds
+              if (cx >= asciiGrid[0].length || cy >= asciiGrid.length) {
+                continue;
+              }
+              
+              // Mark corners and interior with different symbols
+              if (dx === 0 && dy === 0) {
+                // Top-left (already set to the main character)
+              } else if (dx === tokenSize-1 && dy === 0) {
+                // Top-right
+                asciiGrid[cy][cx] = '┐';
+              } else if (dx === 0 && dy === tokenSize-1) {
+                // Bottom-left
+                asciiGrid[cy][cx] = '└';
+              } else if (dx === tokenSize-1 && dy === tokenSize-1) {
+                // Bottom-right
+                asciiGrid[cy][cx] = '┘';
+              } else if (dx === 0 || dx === tokenSize-1) {
+                // Left or right edge
+                asciiGrid[cy][cx] = '│';
+              } else if (dy === 0 || dy === tokenSize-1) {
+                // Top or bottom edge
+                asciiGrid[cy][cx] = '─';
+              } else {
+                // Interior
+                asciiGrid[cy][cx] = '·';
+              }
+            }
+          }
+        }
       });
     }
     
@@ -72,8 +147,10 @@ const ASCIIRenderer = ({ dungeon }) => {
   // Add map legend
   const legend = `
 # - Wall    . - Floor    , - Corridor    + - Door
-M - Monster    B - Boss    $ - Treasure    ^ - Trap
+M - Medium Monster    L - Large Monster    H - Huge Monster    G - Gargantuan Monster
+B - Boss    $ - Treasure    ^ - Trap
 @ - Player Start    > - Stairs Down    < - Stairs Up
+┌┐└┘ - Large entity borders
   `;
   
   return (

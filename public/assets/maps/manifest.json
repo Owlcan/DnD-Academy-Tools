@@ -1,0 +1,790 @@
+{
+  "maps": [
+    {
+      "name": "1 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/1 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/1 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "1 - scholiawoodsmapsforest (1)",
+      "url": "/assets/maps/battlefields/1 - scholiawoodsmapsforest (1).webp",
+      "thumb": "/assets/maps/battlefields/1 - scholiawoodsmapsforest (1).webp",
+      "description": ""
+    },
+    {
+      "name": "1 - scholiawoodsmapsforest (72)",
+      "url": "/assets/maps/battlefields/1 - scholiawoodsmapsforest (72).webp",
+      "thumb": "/assets/maps/battlefields/1 - scholiawoodsmapsforest (72).webp",
+      "description": ""
+    },
+    {
+      "name": "1 - unnamed - 2025-08-19T072747.679",
+      "url": "/assets/maps/battlefields/1 - unnamed - 2025-08-19T072747.679.webp",
+      "thumb": "/assets/maps/battlefields/1 - unnamed - 2025-08-19T072747.679.webp",
+      "description": ""
+    },
+    {
+      "name": "1 - unnamed (1)",
+      "url": "/assets/maps/battlefields/1 - unnamed (1).webp",
+      "thumb": "/assets/maps/battlefields/1 - unnamed (1).webp",
+      "description": ""
+    },
+    {
+      "name": "10 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/10 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/10 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "11 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/11 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/11 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "12 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/12 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/12 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "2 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/2 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/2 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "2 - unnamed - 2025-08-19T072747.682",
+      "url": "/assets/maps/battlefields/2 - unnamed - 2025-08-19T072747.682.webp",
+      "thumb": "/assets/maps/battlefields/2 - unnamed - 2025-08-19T072747.682.webp",
+      "description": ""
+    },
+    {
+      "name": "3 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/3 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/3 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "3 - unnamed - 2025-08-19T072748.422",
+      "url": "/assets/maps/battlefields/3 - unnamed - 2025-08-19T072748.422.webp",
+      "thumb": "/assets/maps/battlefields/3 - unnamed - 2025-08-19T072748.422.webp",
+      "description": ""
+    },
+    {
+      "name": "4 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/4 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/4 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "5 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/5 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/5 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "7 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/7 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/7 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "8 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/8 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/8 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "9 - scholiawoodsmapsforest",
+      "url": "/assets/maps/battlefields/9 - scholiawoodsmapsforest.webp",
+      "thumb": "/assets/maps/battlefields/9 - scholiawoodsmapsforest.webp",
+      "description": ""
+    },
+    {
+      "name": "Abandonton",
+      "url": "/assets/maps/battlefields/Abandonton.webp",
+      "thumb": "/assets/maps/battlefields/Abandonton.webp",
+      "description": ""
+    },
+    {
+      "name": "battlearenas (1)",
+      "url": "/assets/maps/battlefields/battlearenas (1).webp",
+      "thumb": "/assets/maps/battlefields/battlearenas (1).webp",
+      "description": ""
+    },
+    {
+      "name": "battlearenas (2)",
+      "url": "/assets/maps/battlefields/battlearenas (2).webp",
+      "thumb": "/assets/maps/battlefields/battlearenas (2).webp",
+      "description": ""
+    },
+    {
+      "name": "battlearenas (3)",
+      "url": "/assets/maps/battlefields/battlearenas (3).webp",
+      "thumb": "/assets/maps/battlefields/battlearenas (3).webp",
+      "description": ""
+    },
+    {
+      "name": "battlearenas (4)",
+      "url": "/assets/maps/battlefields/battlearenas (4).webp",
+      "thumb": "/assets/maps/battlefields/battlearenas (4).webp",
+      "description": ""
+    },
+    {
+      "name": "battlearenas (5)",
+      "url": "/assets/maps/battlefields/battlearenas (5).webp",
+      "thumb": "/assets/maps/battlefields/battlearenas (5).webp",
+      "description": ""
+    },
+    {
+      "name": "Big Bridge Battle",
+      "url": "/assets/maps/battlefields/Big Bridge Battle.webp",
+      "thumb": "/assets/maps/battlefields/Big Bridge Battle.webp",
+      "description": ""
+    },
+    {
+      "name": "Bottletop Hill",
+      "url": "/assets/maps/battlefields/Bottletop Hill.webp",
+      "thumb": "/assets/maps/battlefields/Bottletop Hill.webp",
+      "description": ""
+    },
+    {
+      "name": "cellaralchemylabs (1)",
+      "url": "/assets/maps/battlefields/cellaralchemylabs (1).webp",
+      "thumb": "/assets/maps/battlefields/cellaralchemylabs (1).webp",
+      "description": ""
+    },
+    {
+      "name": "cellaralchemylabs (2)",
+      "url": "/assets/maps/battlefields/cellaralchemylabs (2).webp",
+      "thumb": "/assets/maps/battlefields/cellaralchemylabs (2).webp",
+      "description": ""
+    },
+    {
+      "name": "cellaralchemylabs (3)",
+      "url": "/assets/maps/battlefields/cellaralchemylabs (3).webp",
+      "thumb": "/assets/maps/battlefields/cellaralchemylabs (3).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (1)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (1).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (1).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (10)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (10).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (10).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (11)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (11).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (11).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (12)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (12).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (12).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (13)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (13).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (13).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (14)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (14).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (14).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (15)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (15).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (15).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (16)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (16).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (16).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (17)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (17).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (17).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (18)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (18).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (18).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (19)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (19).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (19).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (2)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (2).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (2).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (20)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (20).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (20).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (21)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (21).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (21).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (22)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (22).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (22).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (23)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (23).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (23).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (24)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (24).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (24).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (25)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (25).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (25).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (26)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (26).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (26).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (27)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (27).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (27).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (28)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (28).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (28).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (29)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (29).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (29).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (3)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (3).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (3).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (30)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (30).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (30).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (4)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (4).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (4).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (5)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (5).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (5).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (6)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (6).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (6).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (7)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (7).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (7).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (8)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (8).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (8).webp",
+      "description": ""
+    },
+    {
+      "name": "cellarwaysandruins (9)",
+      "url": "/assets/maps/battlefields/cellarwaysandruins (9).webp",
+      "thumb": "/assets/maps/battlefields/cellarwaysandruins (9).webp",
+      "description": ""
+    },
+    {
+      "name": "Class-Battle",
+      "url": "/assets/maps/battlefields/Class-Battle.webp",
+      "thumb": "/assets/maps/battlefields/Class-Battle.webp",
+      "description": ""
+    },
+    {
+      "name": "collectionrooms (1)",
+      "url": "/assets/maps/battlefields/collectionrooms (1).webp",
+      "thumb": "/assets/maps/battlefields/collectionrooms (1).webp",
+      "description": ""
+    },
+    {
+      "name": "collectionrooms (2)",
+      "url": "/assets/maps/battlefields/collectionrooms (2).webp",
+      "thumb": "/assets/maps/battlefields/collectionrooms (2).webp",
+      "description": ""
+    },
+    {
+      "name": "collectionrooms (3)",
+      "url": "/assets/maps/battlefields/collectionrooms (3).webp",
+      "thumb": "/assets/maps/battlefields/collectionrooms (3).webp",
+      "description": ""
+    },
+    {
+      "name": "deepwoodsspaces (1)",
+      "url": "/assets/maps/battlefields/deepwoodsspaces (1).webp",
+      "thumb": "/assets/maps/battlefields/deepwoodsspaces (1).webp",
+      "description": ""
+    },
+    {
+      "name": "deepwoodsspaces (2)",
+      "url": "/assets/maps/battlefields/deepwoodsspaces (2).webp",
+      "thumb": "/assets/maps/battlefields/deepwoodsspaces (2).webp",
+      "description": ""
+    },
+    {
+      "name": "deepwoodsspaces (3)",
+      "url": "/assets/maps/battlefields/deepwoodsspaces (3).webp",
+      "thumb": "/assets/maps/battlefields/deepwoodsspaces (3).webp",
+      "description": ""
+    },
+    {
+      "name": "deepwoodsspaces (4)",
+      "url": "/assets/maps/battlefields/deepwoodsspaces (4).webp",
+      "thumb": "/assets/maps/battlefields/deepwoodsspaces (4).webp",
+      "description": ""
+    },
+    {
+      "name": "deepwoodsspaces (5)",
+      "url": "/assets/maps/battlefields/deepwoodsspaces (5).webp",
+      "thumb": "/assets/maps/battlefields/deepwoodsspaces (5).webp",
+      "description": ""
+    },
+    {
+      "name": "deepwoodsspaces (6)",
+      "url": "/assets/maps/battlefields/deepwoodsspaces (6).webp",
+      "thumb": "/assets/maps/battlefields/deepwoodsspaces (6).webp",
+      "description": ""
+    },
+    {
+      "name": "deepwoodsspaces (7)",
+      "url": "/assets/maps/battlefields/deepwoodsspaces (7).webp",
+      "thumb": "/assets/maps/battlefields/deepwoodsspaces (7).webp",
+      "description": ""
+    },
+    {
+      "name": "Desert Worship",
+      "url": "/assets/maps/battlefields/Desert Worship.webp",
+      "thumb": "/assets/maps/battlefields/Desert Worship.webp",
+      "description": ""
+    },
+    {
+      "name": "Fields-of-Battle",
+      "url": "/assets/maps/battlefields/Fields-of-Battle.jpg",
+      "thumb": "/assets/maps/battlefields/Fields-of-Battle.jpg",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (1)",
+      "url": "/assets/maps/battlefields/forestedspaces (1).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (1).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (10)",
+      "url": "/assets/maps/battlefields/forestedspaces (10).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (10).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (11)",
+      "url": "/assets/maps/battlefields/forestedspaces (11).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (11).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (12)",
+      "url": "/assets/maps/battlefields/forestedspaces (12).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (12).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (13)",
+      "url": "/assets/maps/battlefields/forestedspaces (13).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (13).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (14)",
+      "url": "/assets/maps/battlefields/forestedspaces (14).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (14).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (15)",
+      "url": "/assets/maps/battlefields/forestedspaces (15).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (15).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (16)",
+      "url": "/assets/maps/battlefields/forestedspaces (16).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (16).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (17)",
+      "url": "/assets/maps/battlefields/forestedspaces (17).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (17).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (18)",
+      "url": "/assets/maps/battlefields/forestedspaces (18).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (18).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (19)",
+      "url": "/assets/maps/battlefields/forestedspaces (19).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (19).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (2)",
+      "url": "/assets/maps/battlefields/forestedspaces (2).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (2).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (20)",
+      "url": "/assets/maps/battlefields/forestedspaces (20).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (20).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (3)",
+      "url": "/assets/maps/battlefields/forestedspaces (3).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (3).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (4)",
+      "url": "/assets/maps/battlefields/forestedspaces (4).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (4).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (5)",
+      "url": "/assets/maps/battlefields/forestedspaces (5).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (5).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (6)",
+      "url": "/assets/maps/battlefields/forestedspaces (6).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (6).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (7)",
+      "url": "/assets/maps/battlefields/forestedspaces (7).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (7).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (8)",
+      "url": "/assets/maps/battlefields/forestedspaces (8).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (8).webp",
+      "description": ""
+    },
+    {
+      "name": "forestedspaces (9)",
+      "url": "/assets/maps/battlefields/forestedspaces (9).webp",
+      "thumb": "/assets/maps/battlefields/forestedspaces (9).webp",
+      "description": ""
+    },
+    {
+      "name": "Frozen Fighting Foray",
+      "url": "/assets/maps/battlefields/Frozen Fighting Foray.webp",
+      "thumb": "/assets/maps/battlefields/Frozen Fighting Foray.webp",
+      "description": ""
+    },
+    {
+      "name": "Green Generic and Grassy",
+      "url": "/assets/maps/battlefields/Green Generic and Grassy.webp",
+      "thumb": "/assets/maps/battlefields/Green Generic and Grassy.webp",
+      "description": ""
+    },
+    {
+      "name": "Hold the Fort",
+      "url": "/assets/maps/battlefields/Hold the Fort.webp",
+      "thumb": "/assets/maps/battlefields/Hold the Fort.webp",
+      "description": ""
+    },
+    {
+      "name": "Island Hoppin'",
+      "url": "/assets/maps/battlefields/Island Hoppin'.webp",
+      "thumb": "/assets/maps/battlefields/Island Hoppin'.webp",
+      "description": ""
+    },
+    {
+      "name": "Isle O'Dawn",
+      "url": "/assets/maps/battlefields/Isle O'Dawn.webp",
+      "thumb": "/assets/maps/battlefields/Isle O'Dawn.webp",
+      "description": ""
+    },
+    {
+      "name": "lakerivershore (1)",
+      "url": "/assets/maps/battlefields/lakerivershore (1).webp",
+      "thumb": "/assets/maps/battlefields/lakerivershore (1).webp",
+      "description": ""
+    },
+    {
+      "name": "lakerivershore (2)",
+      "url": "/assets/maps/battlefields/lakerivershore (2).webp",
+      "thumb": "/assets/maps/battlefields/lakerivershore (2).webp",
+      "description": ""
+    },
+    {
+      "name": "lakerivershore (3)",
+      "url": "/assets/maps/battlefields/lakerivershore (3).webp",
+      "thumb": "/assets/maps/battlefields/lakerivershore (3).webp",
+      "description": ""
+    },
+    {
+      "name": "lakerivershore (4)",
+      "url": "/assets/maps/battlefields/lakerivershore (4).webp",
+      "thumb": "/assets/maps/battlefields/lakerivershore (4).webp",
+      "description": ""
+    },
+    {
+      "name": "Land, Sea, Cliff, and Sky",
+      "url": "/assets/maps/battlefields/Land, Sea, Cliff, and Sky.webp",
+      "thumb": "/assets/maps/battlefields/Land, Sea, Cliff, and Sky.webp",
+      "description": ""
+    },
+    {
+      "name": "lissomeplainsborder",
+      "url": "/assets/maps/battlefields/lissomeplainsborder.webp",
+      "thumb": "/assets/maps/battlefields/lissomeplainsborder.webp",
+      "description": ""
+    },
+    {
+      "name": "Little Bridge Battle",
+      "url": "/assets/maps/battlefields/Little Bridge Battle.webp",
+      "thumb": "/assets/maps/battlefields/Little Bridge Battle.webp",
+      "description": ""
+    },
+    {
+      "name": "maps(94)",
+      "url": "/assets/maps/battlefields/maps(94).webp",
+      "thumb": "/assets/maps/battlefields/maps(94).webp",
+      "description": ""
+    },
+    {
+      "name": "mountainarena.780Z",
+      "url": "/assets/maps/battlefields/mountainarena.780Z.webp",
+      "thumb": "/assets/maps/battlefields/mountainarena.780Z.webp",
+      "description": ""
+    },
+    {
+      "name": "nightmarsh.233Z",
+      "url": "/assets/maps/battlefields/nightmarsh.233Z.webp",
+      "thumb": "/assets/maps/battlefields/nightmarsh.233Z.webp",
+      "description": ""
+    },
+    {
+      "name": "nightmarsh1.170Z",
+      "url": "/assets/maps/battlefields/nightmarsh1.170Z.webp",
+      "thumb": "/assets/maps/battlefields/nightmarsh1.170Z.webp",
+      "description": ""
+    },
+    {
+      "name": "nightmarsh2.602Z",
+      "url": "/assets/maps/battlefields/nightmarsh2.602Z.webp",
+      "thumb": "/assets/maps/battlefields/nightmarsh2.602Z.webp",
+      "description": ""
+    },
+    {
+      "name": "nightmarsh3.595Z",
+      "url": "/assets/maps/battlefields/nightmarsh3.595Z.webp",
+      "thumb": "/assets/maps/battlefields/nightmarsh3.595Z.webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (1)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (1).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (1).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (10)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (10).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (10).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (11)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (11).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (11).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (12)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (12).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (12).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (13)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (13).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (13).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (2)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (2).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (2).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (3)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (3).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (3).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (4)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (4).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (4).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (5)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (5).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (5).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (6)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (6).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (6).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (7)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (7).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (7).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (8)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (8).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (8).webp",
+      "description": ""
+    },
+    {
+      "name": "Partially Submerged Chambers (9)",
+      "url": "/assets/maps/battlefields/Partially Submerged Chambers (9).webp",
+      "thumb": "/assets/maps/battlefields/Partially Submerged Chambers (9).webp",
+      "description": ""
+    },
+    {
+      "name": "Riverbend",
+      "url": "/assets/maps/battlefields/Riverbend.webp",
+      "thumb": "/assets/maps/battlefields/Riverbend.webp",
+      "description": ""
+    },
+    {
+      "name": "roadtomajicka (1)",
+      "url": "/assets/maps/battlefields/roadtomajicka (1).webp",
+      "thumb": "/assets/maps/battlefields/roadtomajicka (1).webp",
+      "description": ""
+    },
+    {
+      "name": "roadtomajicka (2)",
+      "url": "/assets/maps/battlefields/roadtomajicka (2).webp",
+      "thumb": "/assets/maps/battlefields/roadtomajicka (2).webp",
+      "description": ""
+    },
+    {
+      "name": "roadtomajicka (3)",
+      "url": "/assets/maps/battlefields/roadtomajicka (3).webp",
+      "thumb": "/assets/maps/battlefields/roadtomajicka (3).webp",
+      "description": ""
+    },
+    {
+      "name": "Seafaring-Strike",
+      "url": "/assets/maps/battlefields/Seafaring-Strike.jpg",
+      "thumb": "/assets/maps/battlefields/Seafaring-Strike.jpg",
+      "description": ""
+    },
+    {
+      "name": "Sewer Count 1",
+      "url": "/assets/maps/battlefields/Sewer Count 1.jpg",
+      "thumb": "/assets/maps/battlefields/Sewer Count 1.jpg",
+      "description": ""
+    },
+    {
+      "name": "The Battle Tower",
+      "url": "/assets/maps/battlefields/The Battle Tower.webp",
+      "thumb": "/assets/maps/battlefields/The Battle Tower.webp",
+      "description": ""
+    },
+    {
+      "name": "Trap-Dungeon",
+      "url": "/assets/maps/battlefields/Trap-Dungeon.png",
+      "thumb": "/assets/maps/battlefields/Trap-Dungeon.png",
+      "description": ""
+    },
+    {
+      "name": "Waterfall Encounter",
+      "url": "/assets/maps/battlefields/Waterfall Encounter.webp",
+      "thumb": "/assets/maps/battlefields/Waterfall Encounter.webp",
+      "description": ""
+    }
+  ]
+}

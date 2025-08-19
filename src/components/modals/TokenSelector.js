@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FancyButton from '../buttons/FancyButton';
 
-const TokenSelector = ({ onSelect, onClose }) => {
+const TokenSelector = ({ onSelect, onClose, characterData }) => {
   const [selectedCategory, setSelectedCategory] = useState('femme'); // or 'masc'
 
   // Define token categories
@@ -24,6 +24,16 @@ const TokenSelector = ({ onSelect, onClose }) => {
 
   const getTokenPath = (type, gender, index) => {
     return require(`../../assets/images/player.tokens/${type} (${gender}) (${index}).png`);
+  };
+
+  // Function to handle token selection, adding character name data
+  const handleTokenSelect = (tokenPath) => {
+    // If characterData is available, pass it along with the tokenPath
+    if (characterData) {
+      onSelect(tokenPath, characterData);
+    } else {
+      onSelect(tokenPath);
+    }
   };
 
   return (
@@ -83,7 +93,7 @@ const TokenSelector = ({ onSelect, onClose }) => {
                   border: '1px solid #b8860b',
                   borderRadius: '4px'
                 }}
-                onClick={() => onSelect(getTokenPath(type, selectedCategory === 'femme' ? 'F' : 'M', i + 1))}
+                onClick={() => handleTokenSelect(getTokenPath(type, selectedCategory === 'femme' ? 'F' : 'M', i + 1))}
               />
               <div style={{ color: '#b8860b', fontSize: '12px' }}>
                 {type} #{i + 1}

@@ -1,0 +1,139 @@
+/* Entity styling for the dungeon renderer */
+
+/* Base entity styling */
+.entity {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 2px;
+  z-index: 2;
+  transition: transform 0.1s ease-in-out;
+}
+
+.entity:hover {
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+/* Large entity styling */
+.large-entity {
+  border-radius: 8px !important;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6) !important;
+  z-index: 10 !important;
+  font-weight: bold !important;
+}
+
+/* Enhanced styles for entities based on their size */
+div[style*="grid-column: span 2"] {
+  font-size: 1.5em !important;
+  background-color: rgba(156, 39, 39, 0.85) !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5) !important;
+  border: 2px solid #ff6b6b !important;
+}
+
+div[style*="grid-column: span 3"] {
+  font-size: 2em !important;
+  background-color: rgba(180, 39, 39, 0.85) !important;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.6) !important;
+  border: 3px solid #ff4040 !important;
+}
+
+div[style*="grid-column: span 4"] {
+  font-size: 2.5em !important;
+  background-color: rgba(200, 39, 39, 0.85) !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7) !important;
+  border: 4px solid #ff0000 !important;
+}
+
+/* Enhanced styles for entities based on their size - using direct style attributes */
+div[style*="grid-column: span 2"][style*="grid-row: span 2"] {
+  font-size: 1.5em !important;
+  background-color: rgba(156, 39, 39, 0.85) !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5) !important;
+  border: 2px solid #ff6b6b !important;
+}
+
+div[style*="grid-column: span 3"][style*="grid-row: span 3"] {
+  font-size: 2em !important;
+  background-color: rgba(180, 39, 39, 0.85) !important;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.6) !important;
+  border: 3px solid #ff4040 !important;
+}
+
+div[style*="grid-column: span 4"][style*="grid-row: span 4"] {
+  font-size: 2.5em !important;
+  background-color: rgba(204, 39, 39, 0.85) !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7) !important;
+  border: 4px solid #ff0000 !important;
+}
+
+/* Enhanced styles for valid move cells */
+.valid-move-cell {
+  cursor: pointer !important;
+  background-color: rgba(76, 175, 80, 0.15) !important;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 1000;
+  pointer-events: none;
+  max-width: 250px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid #555;
+}
+
+.dungeon-tooltip strong {
+  color: #ffd700;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 3px;
+}
+
+/* Specific size classes for use with className */
+.entity-size-large {
+  grid-column: span 2 !important;
+  grid-row: span 2 !important;
+  font-size: 1.5em !important;
+  background-color: rgba(156, 39, 39, 0.85) !important;
+}
+
+.entity-size-huge {
+  grid-column: span 3 !important;
+  grid-row: span 3 !important;
+  font-size: 2em !important;
+  background-color: rgba(180, 39, 39, 0.85) !important;
+}
+
+.entity-size-gargantuan {
+  grid-column: span 4 !important;
+  grid-row: span 4 !important;
+  font-size: 2.5em !important;
+  background-color: rgba(200, 39, 39, 0.85) !important;
+}
+
+/* Boss monster styling */
+div[style*="grid-column: span"][style*="background-color: #b71c1c"],
+.entity-boss {
+  background-color: rgba(183, 28, 28, 0.85) !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.8) !important;
+  border: 3px solid #ff0000 !important;
+  color: #ffeb3b !important; /* Yellow text for boss */
+}
+
+/* Debug markers */
+.size-marker {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 8px;
+  padding: 1px 3px;
+  border-radius: 2px;
+}

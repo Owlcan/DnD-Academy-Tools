@@ -1,0 +1,131 @@
+[
+  {
+    "Spell": "Radiant Lance",
+    "Level": 0,
+    "Classes": ["Cleric"],
+    "Damage": "2d8 (radiant damage)",
+    "Attack_Type": "Ranged spell attack",
+    "Range": "60 feet",
+    "Target": "One creature",
+    "Notes": "This cantrip deals radiant 2d8 damage on a successful ranged spell attack and 4d8 if the target is a darkling, or darkforme."
+  },
+  {
+    "Spell": "Heal",
+    "Level": 1,
+    "Classes": ["Cleric", "Druid", "Paladin", "Bard"],
+    "Healing": "1d8 + spellcasting modifier (healing)",
+    "Range": "Touch",
+    "Target": "One creature",
+    "Notes": "Heal the clicked creature or player by the specified roll when this spell is used."
+  },
+  {
+    "Spell": "Heal More",
+    "Level": 2,
+    "Classes": ["Cleric", "Druid", "Paladin", "Bard"],
+    "Healing": "2d8 + spellcasting modifier (healing)",
+    "Range": "Touch",
+    "Target": "One creature",
+    "Notes": "Heal the clicked creature or player by the specified roll when this spell is used."
+  },
+  {
+    "Spell": "Magic Missile",
+    "Level": 1,
+    "Classes": ["Wizard", "Sorcerer", "Rogue"],
+    "Damage": "3 missiles, each dealing 1d4+1 (force damage)",
+    "Attack_Type": "Automatic hit (no save)",
+    "Notes": "This spell always has 3 missiles at level 1. Each missile requires a declared target."
+  },
+  {
+    "Spell": "Burning Hands",
+    "Level": 1,
+    "Classes": ["Wizard", "Sorcerer", "Rogue"],
+    "Damage": "3d6 (fire damage)",
+    "Attack_Type": "Dexterity saving throw for half damage",
+    "Range": "15-foot cone",
+    "Target": "Multiple creatures"
+  },
+  {
+    "Spell": "Thunderwave",
+    "Level": 1,
+    "Classes": ["Bard", "Druid", "Wizard"],
+    "Damage": "2d8 (thunder damage)",
+    "Attack_Type": "Constitution saving throw for half damage",
+    "Range": "15-foot cube",
+    "Target": "Multiple creatures"
+  },
+  {
+    "Spell": "Chromatic Orb",
+    "Level": 1,
+    "Classes": ["Sorcerer", "Rogue", "Wizard"],
+    "Damage": "3d8 (choose acid, cold, fire, lightning, poison, or thunder)",
+    "Attack_Type": "Ranged spell attack",
+    "Range": "90 feet",
+    "Target": "One creature"
+  },
+  {
+    "Spell": "Guiding Bolt",
+    "Level": 1,
+    "Classes": ["Cleric"],
+    "Damage": "4d6 (radiant damage)",
+    "Attack_Type": "Ranged spell attack",
+    "Range": "120 feet",
+    "Target": "One creature"
+  },
+  {
+    "Spell": "Scorching Ray",
+    "Level": 2,
+    "Classes": ["Sorcerer", "Rogue", "Wizard"],
+    "Damage": "3 rays, each dealing 2d6 (fire damage)",
+    "Attack_Type": "Ranged spell attack",
+    "Range": "120 feet",
+    "Target": "One or more creatures",
+    "Notes": "This spell always has 3 rays at level 2. Each ray requires a declared target."
+  },
+  {
+    "Spell": "Acid Arrow",
+    "Level": 2,
+    "Classes": ["Wizard", "Sorcerer", "Rogue"],
+    "Damage": "5d4 (acid damage)",
+    "Attack_Type": "Ranged spell attack",
+    "Range": "90 feet",
+    "Target": "One creature"
+  },
+  {
+    "Spell": "Shatter",
+    "Level": 2,
+    "Classes": ["Bard", "Sorcerer", "Rogue", "Wizard"],
+    "Damage": "3d8 (thunder damage)",
+    "Attack_Type": "Constitution saving throw for half damage",
+    "Range": "60 feet",
+    "Target": "10-foot-radius sphere"
+  },
+  {
+    "Spell": "Fireball",
+    "Level": 3,
+    "Classes": ["Sorcerer", "Rogue", "Wizard"],
+    "Damage": "8d6 (fire damage)",
+    "Attack_Type": "Dexterity saving throw for half damage",
+    "Range": "150 feet",
+    "Target": "20-foot-radius sphere",
+    "Notes": "This spell requires the player to select the point of origin for a 15-foot radius area-of-effect."
+  },
+  {
+    "Spell": "Lightning Bolt",
+    "Level": 3,
+    "Classes": ["Sorcerer", "Rogue", "Wizard"],
+    "Damage": "8d6 (lightning damage)",
+    "Attack_Type": "Dexterity saving throw for half damage",
+    "Range": "Self (100-foot line)",
+    "Target": "100-foot line that is 5 feet wide"
+  },
+  {
+    "Spell": "Melf's Minute Meteors",
+    "Level": 3,
+    "Classes": ["Wizard", "Sorcerer", "Rogue"],
+    "Damage": "2d6 per meteor (fire damage)",
+    "Attack_Type": "Dexterity saving throw for half damage",
+    "Range": "120 feet",
+    "Target": "5-foot-radius sphere",
+    "Notes": "Creates 6 meteors that can be launched as a bonus action, up to two at a time."
+  }
+]

@@ -1,0 +1,69 @@
+{
+  "name": "Julia",
+  "race": "Human",
+  "class": "Paladin (Oath of Devotion)",
+  "level": 5,
+  "attributes": {
+      "strength": 16,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 16,
+      "str": 16,
+      "dex": 12,
+      "con": 14,
+      "int": 10,
+      "wis": 13,
+      "cha": 16
+  },
+  "hit_points": {
+      "max": 45,
+      "current": 45
+  },
+  "equipment": {
+      "weapons": [
+          {
+              "name": "Longsword (Holy Avenger)",
+              "damage": "1d8+3",
+              "damageType": "slashing",
+              "properties": [
+                  "versatile"
+              ]
+          },
+          {
+              "name": "Warhammer",
+              "damage": "1d8+3",
+              "damageType": "bludgeoning",
+              "properties": [
+                  "versatile"
+              ]
+          },
+          {
+              "name": "Javelin",
+              "damage": "1d6+3",
+              "damageType": "piercing",
+              "properties": [
+                  "thrown"
+              ]
+          }
+      ],
+      "armor": {
+          "name": "Plate Mail",
+          "armor_class": 18,
+          "type": "Heavy"
+      }
+  },
+  "spellcasting": {
+      "known_spells": [
+          "Heal",
+          "Heal More",
+          "Radiant Lance",
+          "Guiding Bolt",
+          "Shield of Faith",
+          "Aid",
+          "Lesser Restoration",
+          "Zone of Truth"
+      ]
+  }
+}

@@ -83,6 +83,12 @@ const findPath = (startX, startY, endX, endY, grid, config) => {
         continue;
       }
       
+      // Skip if the tile is a wall or contains an impassable entity (like monsters or players)
+      // Grid values: 0 = wall, 1 = floor/corridor, 2 = door, 3+ = special entities
+      if (grid && grid[neighborY] && (grid[neighborY][neighborX] === 0 || grid[neighborY][neighborX] >= 3)) {
+        continue;
+      }
+      
       // Cost to move to the neighbor (1 for cardinal directions, 1.4 for diagonals)
       const tentativeG = current.g + dir.cost;
       

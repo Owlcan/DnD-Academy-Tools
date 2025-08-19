@@ -1,0 +1,85 @@
+.encounter-ui-container {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.encounter-ui-container h3 {
+  margin-top: 0;
+  color: #333;
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.encounter-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.encounter-button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: all 0.2s;
+  min-width: 180px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.encounter-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.encounter-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.encounter-button.single-player {
+  background-color: #3498db;
+  color: white;
+}
+
+.encounter-button.group-player {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.encounter-button.clear {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.encounter-loading {
+  text-align: center;
+  color: #666;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.encounter-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .encounter-button-group {
+    flex-direction: column;
+  }
+  
+  .encounter-button {
+    width: 100%;
+  }
+}

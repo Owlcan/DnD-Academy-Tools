@@ -1,8 +1,11 @@
 /* Styles for the dungeon generator test app */
 .dungeon-test-app {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+  max-width: 100%;
+  margin: 0;
   font-family: 'Roboto', sans-serif;
   color: #333;
 }
@@ -394,39 +397,205 @@
 }
 
 /* TestApp styles */
-.test-app {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.dungeon-controls {
-  margin-bottom: 20px;
+.controls button {
+  padding: 8px 12px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #303f9f;
 }
 
 .dungeon-display {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
   gap: 20px;
-  padding: 20px;
-  background: #2a2a2a;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+  width: 100%;
+}
+
+.dungeon-renderer-container {
+  flex: 1;
+  background-color: #222;
   border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  max-height: calc(100vh - 120px);
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .game-log {
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
+  width: 250px;
+  min-width: 250px;
+  height: calc(100vh - 120px);
   padding: 10px;
-  background: #1a1a1a;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  color: #ddd;
+  overflow-y: auto;
   font-family: monospace;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  order: -1; /* Makes the game log appear before (to the left of) the dungeon grid */
 }
 
 .log-entry {
-  margin: 4px 0;
-  padding: 2px 0;
-  border-bottom: 1px solid #333;
+  margin-bottom: 5px;
+  padding: 3px 0;
+  border-bottom: 1px solid #eee;
+  line-height: 1.4;
+  word-wrap: break-word;
+  position: relative;
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+  animation: highlight 2s ease-out;
+}
+
+@keyframes highlight {
+  0% { background-color: rgba(255, 255, 0, 0.3); }
+  100% { background-color: transparent; }
+}
+
+.timestamp {
+  color: #777;
+  font-size: 0.9em;
+  margin-right: 5px;
+}
+
+.character-sheet-modal {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.character-sheet-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.character-sheet-actions button {
+  padding: 8px 16px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.character-sheet-actions button:hover {
+  background-color: #303f9f;
+}
+
+.combat-message {
+  font-weight: bold;
+}
+
+.combat-hit {
+  color: #d32f2f;
+}
+
+.combat-miss {
+  color: #455a64;
+}
+
+/* Settings panel on the right side */
+.dungeon-settings {
+  width: 200px;
+  min-width: 200px;
+  height: calc(100vh - 120px);
+  padding: 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.settings-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.setting-group {
+  margin-bottom: 15px;
+}
+
+.setting-label {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.setting-control {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.setting-control button {
+  width: 100%;
+  padding: 8px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.setting-control button:hover {
+  background-color: #303f9f;
+}
+
+.setting-control button.secondary {
+  background-color: #607d8b;
+}
+
+.setting-control button.secondary:hover {
+  background-color: #455a64;
+}
+
+.setting-control input[type="range"] {
+  width: 100%;
+}
+
+.setting-value {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
 }

@@ -1,10 +1,9 @@
 import React from 'react';
 import FancyButton from '../buttons/FancyButton';
-import { availableMaps } from '../../constants';
+import { availableMaps as baseMaps } from '../../constants';
 
 const BottomMapDrawer = ({ isOpen, onClose, onSelectMap, onCustomMapUpload }) => {
-  if (!isOpen) return null;
-
+  // Hooks must be called unconditionally at the top level
   const handleCustomMapUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -13,6 +12,33 @@ const BottomMapDrawer = ({ isOpen, onClose, onSelectMap, onCustomMapUpload }) =>
       reader.readAsDataURL(file);
     }
   };
+
+  // Attempt to read dynamic manifest generated at build/start time
+  const [dynamicMaps, setDynamicMaps] = React.useState([]);
+  React.useEffect(() => {
+    fetch('/assets/maps/manifest.json', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        if (data && Array.isArray(data.maps)) setDynamicMaps(data.maps);
+      })
+      .catch(() => void 0);
+  }, []);
+
+  const maps = React.useMemo(() => {
+    // Merge base and dynamic by URL to avoid duplicates
+    const seen = new Set();
+    const merged = [];
+    [...baseMaps, ...dynamicMaps].forEach(m => {
+      const url = m && m.url;
+      if (!url || seen.has(url)) return;
+      seen.add(url);
+      merged.push(m);
+    });
+    return merged;
+  }, [dynamicMaps]);
+
+  // Only now is it safe to conditionally return
+  if (!isOpen) return null;
 
   return (
     <div style={{
@@ -39,7 +65,7 @@ const BottomMapDrawer = ({ isOpen, onClose, onSelectMap, onCustomMapUpload }) =>
         gap: '20px',
         justifyItems: 'center'
       }}>
-        {availableMaps.map((map, index) => (
+  {maps.map((map, index) => (
           <div key={index} style={{
             display: 'flex',
             flexDirection: 'column',
