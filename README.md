@@ -30,18 +30,48 @@
 - **Basic Character Tracker**  
   Maintain a basic record of character name and HP values (more soon!)
 
-- **Monster Attack Automation Support**
+- **Monster Attack Automation Support**  
   Let those beasties make good on the threat of their prowess with easily clickable buttons that roll attacks and damage for enemies.
   
 - **Customizable Visual Tools**  
   Integrate maps and visual assets to bring battlefields and dungeons to life, perfect for both digital sessions and in-person games.
   
-- **User-Friendly Interface**
+- **User-Friendly Interface**  
   Enjoy a clean, accessible layout that minimizes setup time and maximizes focus on storytelling and gameplay.
 
-- **Fun and Robust Features:**
-  Custom token upload via URL, free custom music provided by Owlcan via Udio, multiple preloaded character tokens, 34 monsters from the Combat Academy setting
-  
+- **Fun and Robust Features**  
+  Custom token upload via URL, free custom music provided by Owlcan via Udio, multiple preloaded character tokens, 34 monsters from the Combat Academy setting.
+
+- **Static Dungeon Generator**  
+  Spin up a dungeon layout instantly for drop-in encounters and quick play.
+
+- **Dynamic Map Loader (auto-discovery)**  
+  New `.webp` maps are automatically added to the map picker—no manual wiring.
+
+- **Custom Grid Controls (square-enforced)**  
+  Set grid size and counts for custom images; squares are always squares, never rectangles.
+
+- **Improved Measuring Tools**  
+  Accurate distance measurement with hotkey **M** to toggle measure mode.
+
+- **Canvas Controls**  
+  Middle-mouse drag-to-pan, zoom controls, and easy reset.
+
+- **Token QoL & New Token Types**  
+  Optional snap-to-grid toggle, smooth pixel-precise movement when snapping is off, assignable token spawn point with cycling offsets to avoid overlap, token selection field in the monster/token menu, and new vector tokens: **yellow flag**, **down-marker**, and **arenaball**.
+
+- **UI & Notes Enhancements**  
+  Help & Notes includes an **Arenaball** tab; XP calculator and Music player start collapsed with larger open buttons, and controls are arranged for clarity.
+
+## What's New (Recent Updates)
+
+- Optional snap-to-grid for token placement/movement; free-move is smooth and precise.
+- New vector tokens: yellow flag, down-marker, and arenaball.
+- Token spawn point assignment with smart offset cycling.
+- Middle-mouse drag-to-pan; zoom/reset polish.
+- Custom grid sizing with enforced square cells; improved distance measurement + `M` hotkey.
+- Dynamic map auto-discovery for new `.webp` assets.
+- Arenaball tab added to Help & Notes; XP and Music drawers default collapsed with bigger open buttons.
 
 ## Created By Owlcan with CodeSandbox, VS Code Insides, and a LOT of help from Github Co-Pilot and my good Codebaby <font color="pink">**_Neona_**</font>
 
@@ -56,7 +86,7 @@ For Windows users, getting started with **DnD Academy Tools** is simple:
    Once the file is downloaded (typically to your Downloads folder), double-click the EXE file to begin the installation process. If prompted for administrator approval, confirm to continue.
 
 3. **Follow the Setup Wizard**  
-   The installer will guide you through the process:
+   The installer will guide you through the process.
 
 4. **Launch the Application**  
    After installation, launch the app from the wizard, from the Start Menu or via the desktop shortcut (if you opted to create one).
@@ -65,13 +95,11 @@ For Windows users, getting started with **DnD Academy Tools** is simple:
 
 If you encounter any issues during installation or runtime, please refer to the [Issues](https://github.com/Owlcan/DnD-Academy-Tools/issues) section for support.
 
-
+> Current Version: **0.1.0** (Windows x64 installer)
 
 >
 # Download HERE!!!
-### https://store9.gofile.io/download/web/0b303aca-c37e-45f2-a645-b381938b5d87/DnD%20Academy%20Tools_0.1.0_x64-setup.exe
->
-### https://drive.google.com/file/d/1OSftqF6UVUd_h44GWTzCNR6h2Wrf5Ce_/view?usp=sharing
+https://drive.google.com/file/d/1ZNAm1A-CFHlFUHJnlRDWPFX1txJNPY1V/view?usp=sharing
 # Download HERE!!!
 
 ![Untitled](https://github.com/user-attachments/assets/ae86611b-49e4-4be0-99bc-854936448ebb)
